@@ -67,7 +67,12 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/gcc-rtems4.9.
-	$(MAKE) -C build-powerpc prefix=$(CURDIR)/debian/gcc-rtems4.9/usr install
+	$(MAKE) -C build-powerpc prefix=$(CURDIR)/debian/gcc-powerpc-rtems4.9/usr install
+
+	rmdir $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/include
+	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/lib
+	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/share/info
+	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/share/man/man7
 
 
 # Build architecture-independent files here.
