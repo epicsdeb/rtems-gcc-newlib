@@ -81,7 +81,7 @@ toollib_LIBRARIES = libm.a \
 	libc.a
 endif
 
-noinst_DATA = stmp-targ-include
+BUILT_SOURCES = stmp-targ-include
 
 toollib_DATA = $(CRT0) $(CRT1)
 
@@ -185,9 +185,6 @@ crt1.o: $(CRT1_DIR)$(CRT1)
 	 || cp $(CRT0_DIR)$(CRT0) $@
 
 $(CRT1_DIR)$(CRT1): ; @true
-
-
-all-recursive: stmp-targ-include
 
 # The targ-include directory just holds the includes files for the
 # particular system and machine we have been configured for.  It is
