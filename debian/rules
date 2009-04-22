@@ -70,7 +70,7 @@ install: build
 	$(MAKE) -C build-powerpc prefix=$(CURDIR)/debian/gcc-powerpc-rtems4.9/usr install
 
 	rmdir $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/include
-	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/lib
+	rm -f $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/lib/*.a
 	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/share/info
 	rm -rf $(CURDIR)/debian/gcc-powerpc-rtems4.9/usr/share/man/man7
 

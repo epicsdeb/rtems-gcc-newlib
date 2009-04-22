@@ -8,6 +8,6 @@ Homepage: <insert the upstream URL, if relevant>
 
 Package: gcc-powerpc-rtems4.9
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: binutils-powerpc-rtems4.9, ${shlibs:Depends}, ${misc:Depends}
 Description: Cross compiler for RTEMS on PowerPC
  
