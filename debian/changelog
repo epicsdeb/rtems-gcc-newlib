@@ -1,6 +1,10 @@
 gcc-rtems4.9 (4.3.2-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release (Closes: #0000)
+  * gcc 4.3.2 w/ newlib 1.16.0
+  * applied RTEMS patches
+  * rtems gcc core patch 20081214
+  * rtems newlib patch 20081203
 
  -- Michael Davidsaver <mdavidsaver@bnl.gov>  Wed, 15 Apr 2009 20:17:00 -0400
 

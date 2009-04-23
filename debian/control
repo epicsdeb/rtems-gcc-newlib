@@ -2,12 +2,17 @@ Source: gcc-rtems4.9
 Section: unknown
 Priority: extra
 Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
-Build-Depends: debhelper (>= 7), autotools-dev
-Standards-Version: 3.7.3
-Homepage: <insert the upstream URL, if relevant>
+Build-Depends: debhelper (>= 7), autotools-dev, libgmp3-dev, libmpfr-dev
+Standards-Version: 3.8.0
+Homepage: http://gcc.gnu.org/
 
 Package: gcc-powerpc-rtems4.9
 Architecture: any
 Depends: binutils-powerpc-rtems4.9, ${shlibs:Depends}, ${misc:Depends}
 Description: Cross compiler for RTEMS on PowerPC
- 
+ The GNU Compiler Collection includes front ends for C, C++, Objective-C,
+ Fortran, Java, and Ada, as well as libraries for these languages
+ (libstdc++, libgcj,...).
+
+ This package contains a cross-compiler intended for the RTEMS realtime
+ operating system.  It includes the cross compiler and libc (newlib).
