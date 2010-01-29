@@ -36,6 +36,8 @@ endif
 ifneq "$(wildcard /usr/share/misc/config.guess)" ""
 	cp -f /usr/share/misc/config.guess config.guess
 endif
+	install -d build-arm
+	cd build-arm && ../configure $(call CONFIG,arm)
 	install -d build-i386
 	cd build-i386 && ../configure $(call CONFIG,i386)
 	install -d build-powerpc
@@ -47,6 +49,7 @@ build: build-stamp
 build-stamp:  config.status 
 	dh_testdir
 
+	$(MAKE) -C build-arm $(BMAKEFLAGS)
 	$(MAKE) -C build-i386 $(BMAKEFLAGS)
 	$(MAKE) -C build-powerpc $(BMAKEFLAGS)
 
@@ -57,7 +60,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp 
 
-	rm -rf build-i386 build-powerpc
+	rm -rf build-i386 build-powerpc build-arm
 	rm -f config.sub config.guess
 
 	dh_clean 
@@ -69,6 +72,13 @@ install: build
 	dh_testroot
 	dh_clean -k 
 	dh_installdirs
+
+	$(MAKE) -C build-arm prefix=$(call tprefix,arm) install
+
+	rmdir $(call tprefix,arm)/include
+	rm -f $(call tprefix,arm)/lib/*.a
+	rm -rf $(call tprefix,arm)/share/info
+	rm -rf $(call tprefix,arm)/share/man/man7
 
 	$(MAKE) -C build-i386 prefix=$(call tprefix,i386) install
 
