@@ -10,7 +10,7 @@ endif
 
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-MAKEFLAGS += -j$(NUMJOBS)
+BMAKEFLAGS += -j$(NUMJOBS)
 endif
 
 RTEMS_VER =4.9
@@ -47,8 +47,8 @@ build: build-stamp
 build-stamp:  config.status 
 	dh_testdir
 
-	$(MAKE) -C build-i386 $(MAKEFLAGS)
-	$(MAKE) -C build-powerpc $(MAKEFLAGS)
+	$(MAKE) -C build-i386 $(BMAKEFLAGS)
+	$(MAKE) -C build-powerpc $(BMAKEFLAGS)
 
 	touch $@
 
