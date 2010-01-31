@@ -1,6 +1,12 @@
+gcc-rtems4.9 (4.3.2-2) unstable; urgency=low
+
+  * Build ARM tools
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Thu, 28 Jan 2010 13:58:39 -0500
+
 gcc-rtems4.9 (4.3.2-1) unstable; urgency=low
 
-  * Initial release (Closes: #0000)
+  * Initial release
   * gcc 4.3.2 w/ newlib 1.16.0
   * applied RTEMS patches
   * rtems gcc core patch 20081214
