@@ -1,0 +1,5 @@
+2009-03-09	Ralf Corsépius <ralf.corsepius@rtems.org>
+
+	* libc/machine/powerpc/times.c: Remove.
+	* libc/machine/powerpc/Makefile.am: Remove times.c.
+	* libc/machine/powerpc/Makefile.in: Regenerate.
