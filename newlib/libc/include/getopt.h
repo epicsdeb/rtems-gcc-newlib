@@ -89,40 +89,31 @@ gpietsch@comcast.net
 
 /* include files needed by this include file */
 
-  /* These #defines are to keep the namespace clear... */
-#define getopt_r		__getopt_r
-#define getopt_long_r		__getopt_long_r
-#define getopt_long_only_r	__getopt_long_only_r
+/* macros defined by this include file */
+#define NO_ARG          0
+#define REQUIRED_ARG    1
+#define OPTIONAL_ARG    2
+
+/* types defined by this include file */
+
+struct option
+{
+  char *name;                   /* the name of the long option */
+  int has_arg;                  /* one of the above macros */
+  int *flag;                    /* determines if getopt_long() returns a
+                                 * value for a long option; if it is
+                                 * non-NULL, 0 is returned as a function
+                                 * value and the value of val is stored in
+                                 * the area pointed to by flag.  Otherwise,
+                                 * val is returned. */
+  int val;                      /* determines the value to return if flag is
+                                 * NULL. */
+};
 
 #ifdef __cplusplus
 extern "C"
 {
-
-#endif				/* __cplusplus */
-
-/* types defined by this include file */
-  struct option
-  {
-    char *name;			/* the name of the long option */
-    int has_arg;		/* one of the above macros */
-    int *flag;			/* determines if getopt_long() returns a
-				 * value for a long option; if it is
-				 * non-NULL, 0 is returned as a function
-				 * value and the value of val is stored in
-				 * the area pointed to by flag.  Otherwise,
-				 * val is returned. */
-    int val;			/* determines the value to return if flag is
-				 * NULL. */
-
-  };
-
-  /* The getopt_data structure is for reentrancy. Its members are similar to
-     the externally-defined variables.  */
-  typedef struct getopt_data
-  {
-    char *optarg;
-    int optind, opterr, optopt, optwhere;
-  } getopt_data;
+#endif
 
   /* externally-defined variables */
   extern char *optarg;
@@ -131,35 +122,14 @@ extern "C"
   extern int optopt;
 
   /* function prototypes */
-  int _EXFUN (getopt,
-	      (int __argc, char *const __argv[], const char *__optstring));
-
-  int _EXFUN (getopt_long,
-	      (int __argc, char *const __argv[], const char *__shortopts,
-	       const struct option * __longopts, int *__longind));
-
-  int _EXFUN (getopt_long_only,
-	      (int __argc, char *const __argv[], const char *__shortopts,
-	       const struct option * __longopts, int *__longind));
-
-  int _EXFUN (__getopt_r,
-	      (int __argc, char *const __argv[], const char *__optstring,
-	       struct getopt_data * __data));
-
-  int _EXFUN (__getopt_long_r,
-	      (int __argc, char *const __argv[], const char *__shortopts,
-	       const struct option * __longopts, int *__longind,
-	       struct getopt_data * __data));
-
-  int _EXFUN (__getopt_long_only_r,
-	      (int __argc, char *const __argv[], const char *__shortopts,
-	       const struct option * __longopts, int *__longind,
-	       struct getopt_data * __data));
+  int _EXFUN (getopt, (int __argc, char *const __argv[], const char *__optstring));
+  int _EXFUN (getopt_long, (int __argc, char *const __argv[], const char *__shortopts, const struct option *__longopts, int *__longind));
+  int _EXFUN (getopt_long_only, (int __argc, char *const __argv[], const char *__shortopts, const struct option *__longopts, int *__longind));
 
 #ifdef __cplusplus
 };
 
-#endif /* __cplusplus  */
+#endif
 
 #endif /* GETOPT_H */
 

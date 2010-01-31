@@ -84,7 +84,4 @@ typedef _LOCK_RECURSIVE_T _flock_t;
 typedef void *_iconv_t;
 #endif
 
-typedef long * __intptr_t;
-typedef unsigned long* __uintptr_t;
-
 #endif	/* _SYS__TYPES_H */

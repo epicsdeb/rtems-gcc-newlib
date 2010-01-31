@@ -105,7 +105,7 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	pdf-recursive ps-recursive uninstall-info-recursive \
 	uninstall-recursive
 toollibDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(toollib_DATA)
+DATA = $(noinst_DATA) $(toollib_DATA)
 ETAGS = etags
 CTAGS = ctags
 DEJATOOL = $(PACKAGE)
@@ -339,7 +339,7 @@ AR_FLAGS = rc
 @USE_LIBTOOL_FALSE@toollib_LIBRARIES = libm.a \
 @USE_LIBTOOL_FALSE@	libc.a
 
-BUILT_SOURCES = stmp-targ-include
+noinst_DATA = stmp-targ-include
 toollib_DATA = $(CRT0) $(CRT1)
 
 # The functions ldexp, frexp and modf are traditionally supplied in
@@ -398,7 +398,7 @@ MAKEOVERRIDES =
 
 # dejagnu support
 RUNTESTFLAGS = 
-all: $(BUILT_SOURCES) newlib.h
+all: newlib.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -703,16 +703,14 @@ distclean-DEJAGNU:
 	done
 check-am:
 	$(MAKE) $(AM_MAKEFLAGS) check-DEJAGNU
-check: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) check-recursive
+check: check-recursive
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(DATA) newlib.h
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(toollibdir)" "$(DESTDIR)$(toollibdir)" "$(DESTDIR)$(toollibdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
-install: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) install-recursive
+install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -737,7 +735,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool clean-toollibLIBRARIES \
@@ -855,6 +852,8 @@ crt1.o: $(CRT1_DIR)$(CRT1)
 	 || cp $(CRT0_DIR)$(CRT0) $@
 
 $(CRT1_DIR)$(CRT1): ; @true
+
+all-recursive: stmp-targ-include
 
 # The targ-include directory just holds the includes files for the
 # particular system and machine we have been configured for.  It is

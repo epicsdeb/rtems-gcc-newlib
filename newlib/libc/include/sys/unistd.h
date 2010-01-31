@@ -157,7 +157,7 @@ long    _EXFUN(sysconf, (int __name ));
 pid_t   _EXFUN(tcgetpgrp, (int __fildes ));
 int     _EXFUN(tcsetpgrp, (int __fildes, pid_t __pgrp_id ));
 char    _EXFUN(*ttyname, (int __fildes ));
-#if defined(__CYGWIN__) || defined(__rtems__)
+#if defined(__CYGWIN__)
 int     _EXFUN(ttyname_r, (int, char *, size_t)); 
 #endif
 int     _EXFUN(unlink, (const char *__path ));
@@ -219,11 +219,13 @@ useconds_t _EXFUN(ualarm, (useconds_t __useconds, useconds_t __interval));
 char *	_EXFUN(mktemp, (char *));
 #endif
 
-#if defined(__CYGWIN__) || defined(__SPU__) || defined(__rtems__)
+#if defined(__CYGWIN__) || defined(__SPU__)
 void    _EXFUN(sync, (void));
+#elif defined(__rtems__)
+int     _EXFUN(sync, (void));
 #endif
 
-ssize_t _EXFUN(readlink, (const char *__path, char *__buf, size_t __buflen));
+int     _EXFUN(readlink, (const char *__path, char *__buf, int __buflen));
 int     _EXFUN(symlink, (const char *__name1, const char *__name2));
 
 #define	F_OK	0
