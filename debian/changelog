@@ -1,3 +1,14 @@
+gcc-rtems4.9 (4.3.2-3) unstable; urgency=low
+
+  * Apply updated RTEMS patches
+     rtems gcc core patch 20090825
+     rtems newlib patch 20090324
+  * PowerPC: Removes 'clock_t times(struct tms*)'
+  * AVR: Use _exit from newlib
+  * All: sched.h now empty
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Sun, 31 Jan 2010 14:39:14 -0500
+
 gcc-rtems4.9 (4.3.2-2) unstable; urgency=low
 
   * Build ARM tools
