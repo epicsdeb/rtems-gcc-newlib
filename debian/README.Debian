@@ -1,0 +1,6 @@
+gcc-rtems4.9 for Debian
+-----------------------
+
+Vanilla GCC w/ newlib and RTEMS patches: gcc-core-20081214 and newlib-20081203
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Wed, 15 Apr 2009 20:17:00 -0400

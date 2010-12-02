@@ -1,0 +1,121 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+ifeq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+CFLAGS:=$(filter-out -g,$(CFLAGS))
+endif
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+BMAKEFLAGS += -j$(NUMJOBS)
+endif
+
+RTEMS_VER =4.9
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_TARGET_GNU_TYPE = $(1)-rtems$(RTEMS_VER)
+
+CONFIG= --target $(call DEB_TARGET_GNU_TYPE,$(1)) --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE) \
+--prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info \
+--disable-nls --with-system-zlib --without-included-gettext \
+--with-gnu-as --with-gnu-ld --enable-threads --with-newlib \
+--enable-newlib-io-c99-formats --enable-languages=c,c++ \
+CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
+
+config.status: configure
+	dh_testdir
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+	install -d build-arm
+	cd build-arm && ../configure $(call CONFIG,arm)
+	install -d build-i386
+	cd build-i386 && ../configure $(call CONFIG,i386)
+	install -d build-powerpc
+	cd build-powerpc && ../configure $(call CONFIG,powerpc)
+
+
+build: build-stamp
+
+build-stamp:  config.status 
+	dh_testdir
+
+	$(MAKE) -C build-arm $(BMAKEFLAGS)
+	$(MAKE) -C build-i386 $(BMAKEFLAGS)
+	$(MAKE) -C build-powerpc $(BMAKEFLAGS)
+
+	touch $@
+
+clean: 
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp 
+
+	rm -rf build-i386 build-powerpc build-arm
+	rm -f config.sub config.guess
+
+	dh_clean 
+
+tprefix=$(CURDIR)/debian/gcc-$(1)-rtems$(RTEMS_VER)/usr
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k 
+	dh_installdirs
+
+	$(MAKE) -C build-arm prefix=$(call tprefix,arm) install
+
+	rmdir $(call tprefix,arm)/include
+	rm -f $(call tprefix,arm)/lib/*.a
+	rm -rf $(call tprefix,arm)/share/info
+	rm -rf $(call tprefix,arm)/share/man/man7
+
+	$(MAKE) -C build-i386 prefix=$(call tprefix,i386) install
+
+	rmdir $(call tprefix,i386)/include
+	rm -f $(call tprefix,i386)/lib/*.a
+	rm -rf $(call tprefix,i386)/share/info
+	rm -rf $(call tprefix,i386)/share/man/man7
+
+	$(MAKE) -C build-powerpc prefix=$(call tprefix,powerpc) install
+
+	rmdir $(call tprefix,powerpc)/include
+	rm -f $(call tprefix,powerpc)/lib/*.a
+	rm -rf $(call tprefix,powerpc)/share/info
+	rm -rf $(call tprefix,powerpc)/share/man/man7
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs ChangeLog
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_link
+	#dh_strip # messes up libgcc.a and probably others
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 
