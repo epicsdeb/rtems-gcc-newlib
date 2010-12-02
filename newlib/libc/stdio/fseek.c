@@ -101,6 +101,7 @@ Supporting OS subroutines required: <<close>>, <<fstat>>, <<isatty>>,
 #include <_ansi.h>
 #include <reent.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -122,7 +123,7 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
        long offset        _AND
        int whence)
 {
-  _fpos_t _EXFUN((*seekfn), (struct _reent *, _PTR, _fpos_t, int));
+  _fpos_t _EXFNPTR(seekfn, (struct _reent *, _PTR, _fpos_t, int));
   _fpos_t target;
   _fpos_t curoff = 0;
   size_t n;
@@ -137,6 +138,7 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
 
   CHECK_INIT (ptr, fp);
 
+  __sfp_lock_acquire ();
   _flockfile (fp);
 
   /* If we've been doing some writing, and we're in append mode
@@ -154,6 +156,7 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
     {
       ptr->_errno = ESPIPE;	/* ??? */
       _funlockfile (fp);
+      __sfp_lock_release ();
       return EOF;
     }
 
@@ -179,6 +182,7 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
 	  if (curoff == -1L)
 	    {
 	      _funlockfile (fp);
+	      __sfp_lock_release ();
 	      return EOF;
 	    }
 	}
@@ -204,6 +208,7 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
     default:
       ptr->_errno = EINVAL;
       _funlockfile (fp);
+      __sfp_lock_release ();
       return (EOF);
     }
 
@@ -262,6 +267,8 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
   if ((long)target != target)
     {
       ptr->_errno = EOVERFLOW;
+      _funlockfile (fp);
+      __sfp_lock_release ();
       return EOF;
     }
 
@@ -304,12 +311,10 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
   /*
    * If the target offset is within the current buffer,
    * simply adjust the pointers, clear EOF, undo ungetc(),
-   * and return.  (If the buffer was modified, we have to
-   * skip this; see fgetline.c.)
+   * and return.
    */
 
-  if ((fp->_flags & __SMOD) == 0 &&
-      target >= curoff && target < curoff + n)
+  if (target >= curoff && target < curoff + n)
     {
       register int o = target - curoff;
 
@@ -318,7 +323,9 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
       if (HASUB (fp))
 	FREEUB (ptr, fp);
       fp->_flags &= ~__SEOF;
+      memset (&fp->_mbstate, 0, sizeof (_mbstate_t));
       _funlockfile (fp);
+      __sfp_lock_release ();
       return 0;
     }
 
@@ -347,7 +354,9 @@ _DEFUN(_fseek_r, (ptr, fp, offset, whence),
       fp->_p += n;
       fp->_r -= n;
     }
+  memset (&fp->_mbstate, 0, sizeof (_mbstate_t));
   _funlockfile (fp);
+  __sfp_lock_release ();
   return 0;
 
   /*
@@ -360,6 +369,7 @@ dumb:
       || seekfn (ptr, fp->_cookie, offset, whence) == POS_ERR)
     {
       _funlockfile (fp);
+      __sfp_lock_release ();
       return EOF;
     }
   /* success: clear EOF indicator and discard ungetc() data */
@@ -376,7 +386,9 @@ dumb:
      optimization is then allowed if no subsequent flush
      is performed.  */
   fp->_flags &= ~__SNPT;
+  memset (&fp->_mbstate, 0, sizeof (_mbstate_t));
   _funlockfile (fp);
+  __sfp_lock_release ();
   return 0;
 }
 

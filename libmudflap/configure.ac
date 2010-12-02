@@ -7,7 +7,7 @@ AC_CONFIG_SRCDIR(mf-runtime.c)
 AC_CANONICAL_SYSTEM
 ACX_NONCANONICAL_TARGET
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([no-dist])
 
 AC_MSG_CHECKING([for --enable-version-specific-runtime-libs])
 AC_ARG_ENABLE(version-specific-runtime-libs,
@@ -265,6 +265,7 @@ fi
 
 # See if we support thread-local storage.
 GCC_CHECK_TLS
+GCC_CHECK_EMUTLS
 
 AC_CONFIG_FILES([Makefile testsuite/Makefile testsuite/mfconfig.exp])
 AC_OUTPUT

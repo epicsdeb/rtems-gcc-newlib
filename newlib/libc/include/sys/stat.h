@@ -32,6 +32,13 @@ struct	stat
   gid_t		st_gid;
   dev_t		st_rdev;
   off_t		st_size;
+#if defined(__rtems__)
+  struct timespec st_atim;
+  struct timespec st_mtim;
+  struct timespec st_ctim;
+  blksize_t     st_blksize;
+  blkcnt_t	st_blocks;
+#else
   /* SysV/sco doesn't have the rest... But Solaris, eabi does.  */
 #if defined(__svr4__) && !defined(__PPC__) && !defined(__sun__)
   time_t	st_atime;
@@ -48,7 +55,15 @@ struct	stat
   long		st_blocks;
   long	st_spare4[2];
 #endif
+#endif
 };
+
+#if defined(__rtems__)
+#define st_atime st_atim.tv_sec
+#define st_ctime st_ctim.tv_sec
+#define st_mtime st_mtim.tv_sec
+#endif
+
 #endif
 
 #define	_IFMT		0170000	/* type of file */
@@ -115,6 +130,11 @@ struct	stat
 #define	S_ISLNK(m)	(((m)&_IFMT) == _IFLNK)
 #define	S_ISSOCK(m)	(((m)&_IFMT) == _IFSOCK)
 
+#if defined(__CYGWIN__)
+/* Special tv_nsec values for futimens(2) and utimensat(2). */
+#define UTIME_NOW	-2L
+#define UTIME_OMIT	-1L
+#endif
 
 int	_EXFUN(chmod,( const char *__path, mode_t __mode ));
 int     _EXFUN(fchmod,(int __fd, mode_t __mode));
@@ -127,6 +147,16 @@ mode_t	_EXFUN(umask,( mode_t __mask ));
 #if defined (__SPU__) || defined(__rtems__) || defined(__CYGWIN__) && !defined(__INSIDE_CYGWIN__)
 int	_EXFUN(lstat,( const char *__path, struct stat *__buf ));
 int	_EXFUN(mknod,( const char *__path, mode_t __mode, dev_t __dev ));
+#endif
+
+#if defined (__CYGWIN__) && !defined(__INSIDE_CYGWIN__)
+int	_EXFUN(fchmodat, (int, const char *, mode_t, int));
+int	_EXFUN(fstatat, (int, const char *, struct stat *, int));
+int	_EXFUN(mkdirat, (int, const char *, mode_t));
+int	_EXFUN(mkfifoat, (int, const char *, mode_t));
+int	_EXFUN(mknodat, (int, const char *, mode_t, dev_t));
+int	_EXFUN(utimensat, (int, const char *, const struct timespec *, int));
+int	_EXFUN(futimens, (int, const struct timespec *));
 #endif
 
 /* Provide prototypes for most of the _<systemcall> names that are

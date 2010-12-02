@@ -18,6 +18,7 @@ declarations are in @file{wchar.h}.
 * wcscpy::      Copy wide-character string
 * wcpcpy::      Copy a wide-character string returning a pointer to its end
 * wcscspn::     Count wide characters not in string
+* wcsftime::    Convert date and time to a formatted wide-character string
 * wcslcat::     Concatenate wide-character strings to specified length
 * wcslcpy::     Copy wide-character string to specified length
 * wcslen::      Wide-character string length
@@ -30,6 +31,7 @@ declarations are in @file{wchar.h}.
 * wcsrchr::     Reverse search for wide character in string
 * wcsspn::      Find initial match in wide-character string
 * wcsstr::      Find wide-character string segment
+* wcstok::      Tokenize wide-character string
 * wcswidth::    Number of column positions of a wide-character string
 * wcsxfrm::     Locale-specific wide-character string transformation
 * wcwidth::     Number of column positions of a wide-character code
@@ -72,6 +74,9 @@ declarations are in @file{wchar.h}.
 @include string/wcscspn.def
 
 @page
+@include time/wcsftime.def
+
+@page
 @include string/wcslcat.def
 
 @page
@@ -106,6 +111,9 @@ declarations are in @file{wchar.h}.
 
 @page
 @include string/wcsstr.def
+
+@page
+@include string/wcstok.def
 
 @page
 @include string/wcswidth.def

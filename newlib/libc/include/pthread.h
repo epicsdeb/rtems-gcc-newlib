@@ -15,7 +15,7 @@
  *  OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY OF THIS
  *  SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
  *
- *  $Id: pthread.h,v 1.4 2006/09/13 22:09:27 jjohnstn Exp $
+ *  $Id: pthread.h,v 1.8 2009/12/17 19:22:23 jjohnstn Exp $
  */
 
 #ifndef __PTHREAD_h
@@ -33,21 +33,10 @@ extern "C" {
 #include <time.h>
 #include <sys/sched.h>
 
-/* Register Fork Handlers, P1003.1c/Draft 10, P1003.1c/Draft 10, p. 27
-  
-    If an OS does not support processes, then it falls under this provision
-    and may not provide pthread_atfork():
-  
-    "Either the implementation shall support the pthread_atfork() function
-     as described above or the pthread_atfork() funciton shall not be 
-     provided."
-  
-    NOTE: RTEMS does not provide pthread_atfork().  */
-
-#if !defined(__rtems__)
-#warning "Add pthread_atfork() prototype"
-#endif
-
+/* Register Fork Handlers */
+int	_EXFUN(pthread_atfork,(void (*prepare)(void), void (*parent)(void),
+                   void (*child)(void)));
+          
 /* Mutex Initialization Attributes, P1003.1c/Draft 10, p. 81 */
 
 int	_EXFUN(pthread_mutexattr_init, (pthread_mutexattr_t *__attr));
@@ -56,6 +45,17 @@ int	_EXFUN(pthread_mutexattr_getpshared,
 		(_CONST pthread_mutexattr_t *__attr, int  *__pshared));
 int	_EXFUN(pthread_mutexattr_setpshared,
 		(pthread_mutexattr_t *__attr, int __pshared));
+
+#if defined(_UNIX98_THREAD_MUTEX_ATTRIBUTES)
+
+/* Single UNIX Specification 2 Mutex Attributes types */
+
+int _EXFUN(pthread_mutexattr_gettype,
+		(_CONST pthread_mutexattr_t *__attr, int *__kind));
+int _EXFUN(pthread_mutexattr_settype,
+		(pthread_mutexattr_t *__attr, int __kind));
+
+#endif
 
 /* Initializing and Destroying a Mutex, P1003.1c/Draft 10, p. 87 */
 
@@ -283,14 +283,6 @@ void 	_EXFUN(pthread_cleanup_pop, (int __execute));
 int	_EXFUN(pthread_getcpuclockid,
 	(pthread_t __pthread_id, clockid_t *__clock_id));
  
-/* CPU-time Clock Thread Creation Attribute, P1003.4b/D8, p. 59 */
-
-int	_EXFUN(pthread_attr_setcputime,
-	(pthread_attr_t *__attr, int __clock_allowed));
-
-int	_EXFUN(pthread_attr_getcputime,
-	(pthread_attr_t *__attr, int *__clock_allowed));
-
 #endif /* defined(_POSIX_THREAD_CPUTIME) */
 
 
@@ -342,6 +334,7 @@ int	_EXFUN(pthread_rwlock_rdlock,(pthread_rwlock_t *__rwlock));
 int	_EXFUN(pthread_rwlock_tryrdlock,(pthread_rwlock_t *__rwlock));
 int	_EXFUN(pthread_rwlock_timedrdlock,
         (pthread_rwlock_t *__rwlock, _CONST struct timespec *__abstime));
+int	_EXFUN(pthread_rwlock_unlock,(pthread_rwlock_t *__rwlock));
 int	_EXFUN(pthread_rwlock_wrlock,(pthread_rwlock_t *__rwlock));
 int	_EXFUN(pthread_rwlock_trywrlock,(pthread_rwlock_t *__rwlock));
 int	_EXFUN(pthread_rwlock_timedwrlock,

@@ -15,7 +15,7 @@
  *  OR WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY OF THIS
  *  SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
  *
- *  $Id: features.h,v 1.13 2007/12/19 18:51:19 jjohnstn Exp $
+ *  $Id: features.h,v 1.19 2009/07/06 18:59:04 jjohnstn Exp $
  */
 
 #ifndef _SYS_FEATURES_H
@@ -38,11 +38,12 @@ extern "C" {
 #define _POSIX_MEMLOCK_RANGE		1
 #define _POSIX_MEMORY_PROTECTION	1
 #define _POSIX_MESSAGE_PASSING		1
+#define _POSIX_MONOTONIC_CLOCK		200112L
 #define _POSIX_PRIORITIZED_IO		1
 #define _POSIX_PRIORITY_SCHEDULING	1
 #define _POSIX_REALTIME_SIGNALS		1
 #define _POSIX_SEMAPHORES		1
-#define _POSIX_SHARED_MEMORY_OBJECTS	1
+/* #define _POSIX_SHARED_MEMORY_OBJECTS	1 */
 #define _POSIX_SYNCHRONIZED_IO		1
 #define _POSIX_TIMERS			1
 #define _POSIX_BARRIERS                 200112L
@@ -72,7 +73,17 @@ extern "C" {
 #define _POSIX_INTERRUPT_CONTROL		1
 #define _POSIX_ADVISORY_INFO			1
 
+/* UNIX98 added some new pthread mutex attributes */
+#define _UNIX98_THREAD_MUTEX_ATTRIBUTES         1
+
 #endif
+
+/* XMK loosely adheres to POSIX -- 1003.1 */
+#ifdef __XMK__
+#define _POSIX_THREADS				1
+#define _POSIX_THREAD_PRIORITY_SCHEDULING	1
+#endif
+
 
 #ifdef __svr4__
 # define _POSIX_JOB_CONTROL     1
@@ -149,13 +160,13 @@ extern "C" {
 /* #define _POSIX2_PBS_TRACK			    -1 */
 #define _POSIX2_SW_DEV				200112L
 #define _POSIX2_UPE				200112L
-/* #define _POSIX_V6_ILP32_OFF32		    -1 */
+#define _POSIX_V6_ILP32_OFF32			    -1
 #define _XBS5_ILP32_OFF32			_POSIX_V6_ILP32_OFF32
 #define _POSIX_V6_ILP32_OFFBIG			     1
 #define _XBS5_ILP32_OFFBIG			_POSIX_V6_ILP32_OFFBIG
-/* #define _POSIX_V6_LP64_OFF64			    -1 */
+#define _POSIX_V6_LP64_OFF64			    -1
 #define _XBS5_LP64_OFF64			_POSIX_V6_LP64_OFF64
-/* #define _POSIX_V6_LPBIG_OFFBIG		    -1 */
+#define _POSIX_V6_LPBIG_OFFBIG			    -1
 #define _XBS5_LPBIG_OFFBIG			_POSIX_V6_LPBIG_OFFBIG
 #define _XOPEN_CRYPT				     1
 #define _XOPEN_ENH_I18N				     1
@@ -168,11 +179,6 @@ extern "C" {
 
 #endif /* !__STRICT_ANSI__ || __cplusplus || __STDC_VERSION__ >= 199901L */
 #endif /* __CYGWIN__ */
-
-#ifdef __SPU__
-/* Not much for now! */
-#define _POSIX_TIMERS				     1
-#endif
 
 #ifdef __cplusplus
 }

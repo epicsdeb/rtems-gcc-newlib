@@ -31,8 +31,7 @@ ANSI_SYNOPSIS
 
 	#include <stdio.h>
 	size_t _fread_r(struct _reent *<[ptr]>, void *<[buf]>,
-	                size_t <[size]>, size_t <[count]>,
-		        FILE *<[fp]>);
+	                size_t <[size]>, size_t <[count]>, FILE *<[fp]>);
 
 TRAD_SYNOPSIS
 	#include <stdio.h>
@@ -88,7 +87,7 @@ _DEFUN(crlf_r, (ptr, fp, buf, count, eof),
        size_t count _AND
        int eof)
 {
-  int newcount = 0, r;
+  int r;
   char *s, *d, *e;
 
   if (count == 0)
@@ -147,7 +146,9 @@ _DEFUN(_fread_r, (ptr, buf, size, count, fp),
 
   CHECK_INIT(ptr, fp);
 
+  __sfp_lock_acquire ();
   _flockfile (fp);
+  ORIENT (fp, -1);
   if (fp->_r < 0)
     fp->_r = 0;
   total = resid;
@@ -179,9 +180,9 @@ _DEFUN(_fread_r, (ptr, buf, size, count, fp),
 	  void * old_p = fp->_p;
 	  int old_size = fp->_bf._size;
 	  /* allow __refill to use user's buffer */
-	  fp->_bf._base = p;
+	  fp->_bf._base = (unsigned char *) p;
 	  fp->_bf._size = resid;
-	  fp->_p = p;
+	  fp->_p = (unsigned char *) p;
 	  rc = __srefill_r (ptr, fp);
 	  /* restore fp buffering back to original state */
 	  fp->_bf._base = old_base;
@@ -196,10 +197,12 @@ _DEFUN(_fread_r, (ptr, buf, size, count, fp),
               if (fp->_flags & __SCLE)
 	        {
 	          _funlockfile (fp);
+		  __sfp_lock_release ();
 	          return crlf_r (ptr, fp, buf, total-resid, 1) / size;
 	        }
 #endif
 	      _funlockfile (fp);
+	      __sfp_lock_release ();
 	      return (total - resid) / size;
 	    }
 	}
@@ -221,10 +224,12 @@ _DEFUN(_fread_r, (ptr, buf, size, count, fp),
 	      if (fp->_flags & __SCLE)
 		{
 		  _funlockfile (fp);
+		  __sfp_lock_release ();
 		  return crlf_r (ptr, fp, buf, total-resid, 1) / size;
 		}
 #endif
 	      _funlockfile (fp);
+	      __sfp_lock_release ();
 	      return (total - resid) / size;
 	    }
 	}
@@ -238,10 +243,12 @@ _DEFUN(_fread_r, (ptr, buf, size, count, fp),
   if (fp->_flags & __SCLE)
     {
       _funlockfile (fp);
+      __sfp_lock_release ();
       return crlf_r(ptr, fp, buf, total, 0) / size;
     }
 #endif
   _funlockfile (fp);
+  __sfp_lock_release ();
   return count;
 }
 

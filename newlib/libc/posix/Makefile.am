@@ -5,9 +5,11 @@ AUTOMAKE_OPTIONS = cygnus
 INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS)
 
 GENERAL_SOURCES = \
-	closedir.c creat.c isatty.c \
-	opendir.c readdir.c \
-	readdir_r.c rewinddir.c sleep.c usleep.c \
+	closedir.c collate.c collcmp.c creat.c \
+	fnmatch.c glob.c _isatty.c isatty.c \
+	opendir.c readdir.c readdir_r.c \
+	regcomp.c regerror.c regexec.c regfree.c \
+	rewinddir.c sleep.c usleep.c \
 	telldir.c
 
 ELIX_2_SOURCES = \
@@ -15,7 +17,7 @@ ELIX_2_SOURCES = \
 
 ELIX_3_SOURCES = \
 	execl.c execle.c execlp.c execv.c \
-	execve.c execvp.c
+	execve.c execvp.c wordexp.c wordfree.c
 
 ELIX_4_SOURCES = \
 	popen.c 
@@ -49,7 +51,8 @@ endif # USE_LIBTOOL
 
 include $(srcdir)/../../Makefile.shared	
 
-CHEWOUT_FILES =
+CHEWOUT_FILES = \
+	popen.def
 
 SUFFIXES = .def
 
@@ -61,7 +64,9 @@ CHEW = ../../doc/makedoc -f $(srcdir)/../../doc/doc.str
 
 TARGETDOC = ../tmp.texi
 
-# No doc for posix.
-doc:
+doc: $(CHEWOUT_FILES)
+	cat $(srcdir)/posix.tex >> $(TARGETDOC)
+
+AM_CFLAGS = -D_GNU_SOURCE
 
 CLEANFILES = $(CHEWOUT_FILES) *.ref

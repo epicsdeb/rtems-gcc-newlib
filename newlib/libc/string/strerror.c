@@ -274,6 +274,18 @@ Text file busy
 o EXDEV
 Cross-device link
 
+o ECANCELED
+Operation canceled
+
+o ENOTRECOVERABLE
+State not recoverable
+
+o EOWNERDEAD
+Previous owner died
+
+o ESTRPIPE
+Strings pipe error
+
 o-
 
 RETURNS
@@ -436,7 +448,7 @@ _DEFUN (strerror, (errnum),
       error = "Host is down";
       break;
 #endif
-#ifdef EINPROGRESS 
+#ifdef EINPROGRESS
     case EINPROGRESS:
       error = "Connection already in progress";
       break;
@@ -541,7 +553,7 @@ _DEFUN (strerror, (errnum),
       error = "Deadlock";
       break;
 #endif
-#ifdef ENETUNREACH 
+#ifdef ENETUNREACH
     case  ENETUNREACH:
       error = "Network is unreachable";
       break;
@@ -735,6 +747,26 @@ _DEFUN (strerror, (errnum),
     case EISCONN:
         error = "Socket is already connected";
         break;
+#endif
+#ifdef ECANCELED
+    case ECANCELED:
+        error = "Operation canceled";
+        break;
+#endif
+#ifdef ENOTRECOVERABLE
+    case ENOTRECOVERABLE:
+        error = "State not recoverable";
+        break;
+#endif
+#ifdef EOWNERDEAD
+    case EOWNERDEAD:
+        error = "Previous owner died";
+        break;
+#endif
+#ifdef ESTRPIPE
+    case ESTRPIPE:
+	error = "Streams pipe error";
+	break;
 #endif
 #if defined(EOPNOTSUPP) && (!defined(ENOTSUP) || (ENOTSUP != EOPNOTSUPP))
     case EOPNOTSUPP:

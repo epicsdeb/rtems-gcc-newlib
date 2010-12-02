@@ -1,3 +1,4 @@
+#ifndef _NO_TTYNAME
 /*
  * Copyright (c) 1988 The Regents of the University of California.
  * All rights reserved.
@@ -10,10 +11,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by the University of
- *	California, Berkeley and its contributors.
  * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
@@ -31,54 +28,27 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char sccsid[] = "@(#)ttyname.c	5.10 (Berkeley) 5/6/91";
-#endif /* LIBC_SCCS and not lint */
+#include "ttyname.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <dirent.h>
-#include <termios.h>
 #include <unistd.h>
-#include <string.h>
 #include <paths.h>
-#include <_syslist.h>
+#include <errno.h>
 
-static char buf[sizeof (_PATH_DEV) + MAXNAMLEN] = _PATH_DEV;
+static char ttyname_buf[TTYNAME_BUFSIZE] = _PATH_DEV;
 
+/*
+ *  ttyname() - POSIX 1003.1b 4.7.2 - Determine Terminal Device Name
+ */
 char *
-ttyname (fd)
-     int fd;
+_DEFUN( ttyname,(fd),
+	int fd)
 {
-  struct stat sb;
-  struct termios tty;
-  struct dirent *dirp;
-  DIR *dp;
-  struct stat dsb;
-
-  /* Must be a terminal. */
-  if (tcgetattr (fd, &tty) < 0)
-    return NULL;
-
-  /* Must be a character device. */
-  if (fstat (fd, &sb) || !S_ISCHR (sb.st_mode))
-    return NULL;
-
-  if ((dp = opendir (_PATH_DEV)) == NULL)
-    return NULL;
-
-  while ((dirp = readdir (dp)) != NULL)
-    {
-      if (dirp->d_ino != sb.st_ino)
-	continue;
-      strcpy (buf + sizeof (_PATH_DEV) - 1, dirp->d_name);
-      if (stat (buf, &dsb) || sb.st_dev != dsb.st_dev ||
-	  sb.st_ino != dsb.st_ino)
-	continue;
-      (void) closedir (dp);
-      return buf;
-    }
-  (void) closedir (dp);
-  return NULL;
+  register int  fail;
+  register char *ret=NULL;
+  fail = ttyname_r( fd, ttyname_buf, sizeof(ttyname_buf) );
+  if ( fail )  errno = fail;
+   else  ret = ttyname_buf;
+  return ret;
 }
+#endif /* !_NO_TTYNAME  */

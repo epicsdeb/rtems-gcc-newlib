@@ -8,11 +8,13 @@ if HAVE_STDIO64_DIR
 STDIO64_SOURCES = \
 	fstat64r.c \
 	lseek64r.c \
+	stat64r.c \
 	open64r.c
 
 STDIO64_DEFS = \
 	fstat64r.def \
 	lseek64r.def \
+	stat64r.def \
 	open64r.def
 endif
 
@@ -37,8 +39,10 @@ GENERAL_SOURCES = \
 	fstatr.c \
 	getreent.c \
 	gettimeofdayr.c \
+	isattyr.c \
 	linkr.c \
 	lseekr.c \
+	mkdirr.c \
 	openr.c \
 	readr.c \
 	renamer.c \
@@ -74,6 +78,7 @@ CHEWOUT_FILES = \
 	gettimeofdayr.def \
 	linkr.def \
 	lseekr.def \
+	mkdirr.def \
 	openr.def \
 	readr.def \
 	renamer.def \

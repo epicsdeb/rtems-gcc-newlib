@@ -1,8 +1,8 @@
-/* Copyright (C) 2006 Free Software Foundation, Inc.
+/* Copyright (C) 2006, 2008, 2009 Free Software Foundation, Inc.
 
    This file is free software; you can redistribute it and/or modify it under
    the terms of the GNU General Public License as published by the Free
-   Software Foundation; either version 2 of the License, or (at your option) 
+   Software Foundation; either version 3 of the License, or (at your option) 
    any later version.
 
    This file is distributed in the hope that it will be useful, but WITHOUT
@@ -10,16 +10,14 @@
    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
    for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this file; see the file COPYING.  If not, write to the Free
-   Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA
-   02110-1301, USA.  */
+   Under Section 7 of GPL version 3, you are granted additional
+   permissions described in the GCC Runtime Library Exception, version
+   3.1, as published by the Free Software Foundation.
 
-/* As a special exception, if you include this header file into source files 
-   compiled by GCC, this header file does not by itself cause  the resulting 
-   executable to be covered by the GNU General Public License.  This exception 
-   does not however invalidate any other reasons why the executable file might be 
-   covered by the GNU General Public License.  */ 
+   You should have received a copy of the GNU General Public License and
+   a copy of the GCC Runtime Library Exception along with this program;
+   see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+   <http://www.gnu.org/licenses/>.  */
 
 #ifndef __SPU_MFCIO_H__
 #define __SPU_MFCIO_H__ 1
@@ -289,6 +287,34 @@ typedef struct mfc_list_element {
 #define spu_write_srr0(srr0)          spu_writech(SPU_WrSRR0,srr0)
 #define spu_read_srr0()               spu_readch(SPU_RdSRR0)
 
+/* Interrupt-Safe Critical Sections */
+
+static __inline__ unsigned int mfc_begin_critical_section (void)
+  __attribute__ ((__always_inline__));
+
+static __inline__ unsigned int
+mfc_begin_critical_section (void)
+{
+#ifdef SPU_MFCIO_INTERRUPT_SAFE
+  unsigned int __status = spu_read_machine_status ();
+  spu_idisable ();
+  return __status;
+#else
+  return 0;
+#endif
+}
+
+static __inline__ void mfc_end_critical_section (unsigned int)
+  __attribute__ ((__always_inline__));
+
+static __inline__ void
+mfc_end_critical_section (unsigned int __status __attribute__ ((__unused__)))
+{
+#ifdef SPU_MFCIO_INTERRUPT_SAFE
+  if (__status & 1)
+    spu_ienable ();
+#endif
+}
 
 /* MFC Tag Manager */
 

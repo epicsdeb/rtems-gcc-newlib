@@ -11,9 +11,11 @@
 #define _fstat fstat
 #define _getpid getpid
 #define _gettimeofday gettimeofday
+#define _isatty isatty
 #define _kill kill
 #define _link link
 #define _lseek lseek
+#define _mkdir mkdir
 #define _open open
 #define _read read
 #define _sbrk sbrk

@@ -1,12 +1,12 @@
 // Debugging mode support code -*- C++ -*-
 
-// Copyright (C) 2003, 2004, 2005, 2006, 2007
+// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2009
 // Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
 // terms of the GNU General Public License as published by the
-// Free Software Foundation; either version 2, or (at your option)
+// Free Software Foundation; either version 3, or (at your option)
 // any later version.
 
 // This library is distributed in the hope that it will be useful,
@@ -14,19 +14,14 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
-// You should have received a copy of the GNU General Public License along
-// with this library; see the file COPYING.  If not, write to the Free
-// Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
-// USA.
+// Under Section 7 of GPL version 3, you are granted additional
+// permissions described in the GCC Runtime Library Exception, version
+// 3.1, as published by the Free Software Foundation.
 
-// As a special exception, you may use this file as part of a free software
-// library without restriction.  Specifically, if other files instantiate
-// templates or use macros or inline functions from this file, or you compile
-// this file and link it with other files to produce an executable, this
-// file does not by itself cause the resulting executable to be covered by
-// the GNU General Public License.  This exception does not however
-// invalidate any other reasons why the executable file might be covered by
-// the GNU General Public License.
+// You should have received a copy of the GNU General Public License and
+// a copy of the GCC Runtime Library Exception along with this program;
+// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+// <http://www.gnu.org/licenses/>.
 
 #include <debug/debug.h>
 #include <debug/safe_sequence.h>
@@ -42,7 +37,12 @@ using namespace std;
 
 namespace
 {
-  __gnu_cxx::__mutex safe_base_mutex;
+  __gnu_cxx::__mutex&
+  get_safe_base_mutex()
+  {
+    static __gnu_cxx::__mutex safe_base_mutex;
+    return safe_base_mutex;
+  }
 } // anonymous namespace
 
 namespace __gnu_debug
@@ -112,7 +112,7 @@ namespace __gnu_debug
   _Safe_sequence_base::
   _M_detach_all()
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     for (_Safe_iterator_base* __iter = _M_iterators; __iter;)
       {
 	_Safe_iterator_base* __old = __iter;
@@ -132,7 +132,7 @@ namespace __gnu_debug
   _Safe_sequence_base::
   _M_detach_singular()
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     for (_Safe_iterator_base* __iter = _M_iterators; __iter;)
       {
 	_Safe_iterator_base* __old = __iter;
@@ -154,7 +154,7 @@ namespace __gnu_debug
   _Safe_sequence_base::
   _M_revalidate_singular()
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     for (_Safe_iterator_base* __iter = _M_iterators; __iter;
 	 __iter = __iter->_M_next)
       __iter->_M_version = _M_version;
@@ -168,7 +168,7 @@ namespace __gnu_debug
   _Safe_sequence_base::
   _M_swap(_Safe_sequence_base& __x)
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     swap(_M_iterators, __x._M_iterators);
     swap(_M_const_iterators, __x._M_const_iterators);
     swap(_M_version, __x._M_version);
@@ -186,13 +186,13 @@ namespace __gnu_debug
   __gnu_cxx::__mutex&
   _Safe_sequence_base::
   _M_get_mutex()
-  { return safe_base_mutex; }
+  { return get_safe_base_mutex(); }
 
   void
   _Safe_iterator_base::
   _M_attach(_Safe_sequence_base* __seq, bool __constant)
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     _M_attach_single(__seq, __constant);
   }
   
@@ -229,7 +229,7 @@ namespace __gnu_debug
   _Safe_iterator_base::
   _M_detach()
   {
-    __gnu_cxx::__scoped_lock sentry(safe_base_mutex);
+    __gnu_cxx::__scoped_lock sentry(_M_get_mutex());
     _M_detach_single();
   }
 
@@ -273,7 +273,7 @@ namespace __gnu_debug
   __gnu_cxx::__mutex&
   _Safe_iterator_base::
   _M_get_mutex()
-  { return safe_base_mutex; }
+  { return get_safe_base_mutex(); }
 
   void
   _Error_formatter::_Parameter::

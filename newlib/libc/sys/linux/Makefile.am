@@ -47,6 +47,7 @@ GENERAL_SOURCES = \
 	inode.c \
 	io.c \
 	ipc.c \
+	isatty.c \
 	linux.c \
 	mallinfor.c \
 	malloc.c \
@@ -219,7 +220,7 @@ objectlist.awk.in: $(noinst_LTLIBRARIES) $(SUBLIBS)
 	    fi; \
 	done
 
-all: crt0.o crt1.o
+all-local: crt0.o crt1.o
 
 crt0.o: machine/crt0.o
 	rm -f $@
