@@ -1,4 +1,4 @@
-gcc-rtems4.9 (4.3.2-3) unstable; urgency=low
+gcc-rtems4.10 (4.4.5-1) unstable; urgency=low
 
   * Apply updated RTEMS patches
      rtems gcc core patch 20090825

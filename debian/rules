@@ -13,7 +13,7 @@ NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 BMAKEFLAGS += -j$(NUMJOBS)
 endif
 
-RTEMS_VER =4.9
+RTEMS_VER =4.10
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
