@@ -43,7 +43,7 @@ int	 __big_return(HTAB *, BUFHEAD *, int, DBT *, int);
 int	 __big_split(HTAB *, BUFHEAD *, BUFHEAD *, BUFHEAD *,
 		int, __uint32_t, SPLIT_RETURN *);
 int	 __buf_free(HTAB *, int, int);
-void	 __buf_init(HTAB *, int);
+void	 __buf_init(HTAB *, __uint32_t);
 __uint32_t	 __call_hash(HTAB *, char *, int);
 int	 __delpair(HTAB *, BUFHEAD *, int);
 int	 __expand_table(HTAB *);

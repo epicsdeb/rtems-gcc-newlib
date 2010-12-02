@@ -118,7 +118,7 @@ __get_buf(hashp, addr, prev_bp, newpage)
 	int newpage;	/* If prev_bp set, indicates a new overflow page. */
 {
 	BUFHEAD *bp;
-	__uint32_t is_disk_mask;
+	ptrdiff_t is_disk_mask;
 	int is_disk, segment_ndx;
 	SEGMENT segp;
 
@@ -298,7 +298,7 @@ newbuf(hashp, addr, prev_bp)
 extern void
 __buf_init(hashp, nbytes)
 	HTAB *hashp;
-	int nbytes;
+	__uint32_t nbytes;
 {
 	BUFHEAD *bfp;
 	int npages;
