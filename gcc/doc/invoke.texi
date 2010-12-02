@@ -606,6 +606,10 @@ Objective-C and Objective-C++ Dialects}.
 -mno-sched-prefer-non-control-spec-insns @gol
 -mno-sched-count-spec-in-critical-path}
 
+@emph{LM32 Options}
+@gccoptlist{-mbarrel-shift-enabled -mdivide-enabled -mmultiply-enabled @gol
+-msign-extend-enabled -muser-enabled}
+
 @emph{M32R/D Options}
 @gccoptlist{-m32r2 -m32rx -m32r @gol
 -mdebug @gol
@@ -8858,6 +8862,7 @@ platform.
 * i386 and x86-64 Options::
 * i386 and x86-64 Windows Options::
 * IA-64 Options::
+* LM32 Options::
 * M32C Options::
 * M32R/D Options::
 * M680x0 Options::
@@ -11839,6 +11844,35 @@ memory instead of registers.  Note that all modules in a program must
 be compiled with the same value for this option.  Because of that, you
 must not use this option with the default runtime libraries gcc
 builds.
+
+@end table
+
+@node LM32 Options
+@subsection LM32 Options
+@cindex LM32 options
+
+These @option{-m} options are defined for the Lattice Mico32 architecture:
+
+@table @gcctabopt
+@item -mbarrel-shift-enabled
+@opindex mbarrel-shift-enabled
+Enable barrel-shift instructions.
+
+@item -mdivide-enabled
+@opindex mdivide-enabled
+Enable divide and modulus instructions.
+
+@item -mmultiply-enabled
+@opindex multiply-enabled
+Enable multiply instructions.
+
+@item -msign-extend-enabled
+@opindex msign-extend-enabled
+Enable sign extend instructions.
+
+@item -muser-enabled
+@opindex muser-enabled
+Enable user-defined instructions.
 
 @end table
 

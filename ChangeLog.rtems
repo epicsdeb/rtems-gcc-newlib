@@ -1,0 +1,4 @@
+		Ralf Corsépius <ralf.corsepius@rtems.org>
+
+	* configure, configure.ac (skipdirs): Add target-libiberty.
+
