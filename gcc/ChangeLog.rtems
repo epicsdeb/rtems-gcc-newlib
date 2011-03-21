@@ -1,3 +1,8 @@
+2011-02-20	Ralf Corsépius <ralf.corsepius@rtems.org>
+
+	* config/rs6000/t-rtems: Remove -mcpu=601 multilib.
+	* config/rs6000/t-rtems: Remove -Dmpc8260 multilib.
+
 2010-03-15	Ralf Corsépius <ralf.corsepius@rtems.org>
 
 	Patch from Thomas Doerfler <Thomas.Doerfler@embedded-brains.de>:
