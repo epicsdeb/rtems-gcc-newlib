@@ -1,3 +1,11 @@
+gcc-rtems4.10 (4.4.5-2) unstable; urgency=low
+
+  * Update patches:
+      RTEMS 4.10 newlib patch 20110114
+      RTEMS 4.10 GGC patch 20110301
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Mon, 21 Mar 2011 16:15:10 -0400
+
 gcc-rtems4.10 (4.4.5-1) unstable; urgency=low
 
   * Apply updated RTEMS patches
