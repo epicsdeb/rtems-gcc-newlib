@@ -1,3 +1,71 @@
+2011-01-14	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libm/common/s_ilogb.c, libm/common/s_llround.c,
+	libm/common/s_log2.c, libm/common/s_lrint.c, 
+	libm/common/s_lround.c, libm/common/s_rint.c,
+	libm/common/sf_ilogb.c, libm/common/sf_log2.c,
+	libm/common/sf_rint.c: Import from newlib-cvs.
+
+2011-01-14	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libm/common/fdlibm.h: 
+	Add SAFE_LEFT_SHIFT, SAFE_RIGHT_SHIFT from newlib-cvs.
+
+2011-01-07	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/stdio/open_memstream.c: Replace 64 * 1024 with 0x10000 to 
+	avoid integer overflow on h8300.
+
+2011-01-05	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libm/common/s_llrint.c: Back-port from newlib-cvs.
+
+2011-01-05	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/stdio/tmpnam.c: Include <stdint.h>.
+	Use intptr_t instead of _POINTER_INT for improved portability.
+	* libc/misc/__dprintf.c: Include <stdint.h>
+	Use intptr_t instead of _POINTER_INT for improved portability.
+
+2011-01-05	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libm/common/s_round.c: Cast const int to __int32_t.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* doc/makedoc.c: Add cludge to make makedoc 64bit compliant.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libm/math/e_scalb.c: Include <limits.h>.
+	Don't rely on 65000 being a valid int.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/posix/readdir.c:	Include <stdint.h>.
+	Cast to intptr_t instead of int.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/string/memccpy.c, libc/string/memchr.c,
+	libc/string/memcmp.c, libc/string/memcpy.c,
+	libc/string/memmove.c, libc/string/mempcpy.c,
+	libc/string/memset.c, libc/string/stpcpy.c,
+	libc/string/stpncpy.c, libc/string/strcpy.c,
+	libc/string/strlen.c, libc/string/strncat.c,
+	libc/string/strncpy.c (UNALIGNED):
+	Include <stdint.h>.
+	Cast to intptr_t instead of long.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/sys/rtems/crt0.c: Fix free and calloc declarations.
+
+2011-01-04	Ralf Corsépius  <ralf.corsepius@rtems.org>
+
+	* libc/stdio/open_memstream.c (internal_open_memstream_r):
+	Don't limit c->max to 64*1024 on targets with SIZE_MAX < 64*1024.
+
 2010-10-05  Eric Blake  <eblake@redhat.com>
 
 	memmem, strstr, strcasestr: fix bug with long periodic needle

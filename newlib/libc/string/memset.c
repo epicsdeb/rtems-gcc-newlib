@@ -34,9 +34,10 @@ QUICKREF
 */
 
 #include <string.h>
+#include <stdint.h>
 
 #define LBLOCKSIZE (sizeof(long))
-#define UNALIGNED(X)   ((long)X & (LBLOCKSIZE - 1))
+#define UNALIGNED(X)   ((intptr_t)X & (LBLOCKSIZE - 1))
 #define TOO_SMALL(LEN) ((LEN) < LBLOCKSIZE)
 
 _PTR
