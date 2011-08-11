@@ -1,3 +1,402 @@
+2011-04-16  Release Manager
+
+	* GCC 4.4.6 released.
+
+2011-04-13  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from mainline
+	2011-04-06  Joseph Myers  <joseph@codesourcery.com>
+
+	* gcov-io.c: Use GCC Runtime Library Exception.
+
+2011-04-07  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from mainline
+	2011-04-06  Jakub Jelinek  <jakub@redhat.com>
+
+	PR debug/48466
+	* dwarf2out.c (based_loc_descr): If drap_reg is INVALID_REGNUM, use
+	as base_reg whatever register reg has been eliminated to, instead
+	of hardcoding STACK_POINTER_REGNUM.
+
+	2011-03-17  Jakub Jelinek  <jakub@redhat.com>
+
+	PR rtl-optimization/48141
+	* dse.c (record_store): If no positions are needed in an insn
+	that cannot be deleted, at least unchain it from active_local_stores.
+
+2011-04-07  Jakub Jelinek  <jakub@redhat.com>
+
+	PR tree-optimization/46491
+	Backported from mainline
+	2010-05-14  Jan Hubicka  <jh@suse.cz>
+
+	* ipa-pure-const.c (check_stmt): Do not use memory_identifier_string.
+
+2011-03-30  H.J. Lu  <hongjiu.lu@intel.com>
+
+	Backport from mainline
+	2011-03-30  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR target/48349
+	* config/i386/i386.h (REG_CLASS_CONTENTS): Fix a typo in
+	FLOAT_SSE_REGS.
+
+2011-03-23  Jonathan Wakely  <jwakely.gcc@gmail.com>
+
+	PR other/48254
+	* doc/invoke.texi (-fipa-struct-reorg): Fix typo.
+
+2011-03-23  Jonathan Wakely  <jwakely.gcc@gmail.com>
+
+	PR other/48179
+	PR other/48234
+	* doc/extend.texi (Alignment): Move section to match order in TOC.
+	* doc/invoke.texi (i386 and x86-64 Windows Options): Likewise.
+
+2011-03-03  Uros Bizjak  <ubizjak@gmail.com>
+
+	* config/i386/sse.md (*avx_pmaddubsw128): Fix mode of VEC_SELECT RTX.
+	(ssse3_pmaddubsw128): Ditto.
+	(ssse3_pmaddubsw): Ditto.
+
+2011-02-21  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/47840
+	* config/i386/avxintrin.h (_mm256_insert_epi32): Use _mm_insert_epi32.
+	(_mm256_insert_epi64): Use _mm_insert_epi64.
+
+2011-02-19  Alexandre Oliva  <aoliva@redhat.com>
+
+	PR tree-optimization/46620
+	* tree-sra.c (try_instantiate_multiple_fields): Don't get stuck at
+	padding within accessed words.
+
+2011-02-18  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* config.gcc (hppa[12]*-*-hpux11*): Set extra_parts.
+	* config/pa/stublib.c (pthread_default_stacksize_np, pthread_mutex_lock,
+	pthread_mutex_unlock, pthread_once): Reinstate pthread stubs.
+	* config/pa/t-pa-hpux11: Add rules to build pthread stubs.
+	* config/pa/t-pa64: Likewise.
+	* config/pa/pa-hpux11.h (LINK_GCC_C_SEQUENCE_SPEC): Define.
+
+2011-02-17  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/43653
+	* config/i386/i386.c (ix86_secondary_reload): Handle SSE
+	input reload with PLUS RTX.
+
+2011-02-15  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	PR pch/14940
+	* config/alpha/host-osf.c: New file.
+	* config/alpha/x-osf: New file.
+	* config.host (alpha*-dec-osf*): Use it.
+
+2011-02-10  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	Backport from mainline:
+	2011-02-07  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* config/pa/pa64-hpux.h (LIB_SPEC): In static links, link against
+	shared libc if not linking against libpthread.
+	* config/pa/pa-hpux11.h (LIB_SPEC): Likewise.
+
+	2010-08-22  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR boehm-gc/34544
+	* gthr-posix.h (__gthread_active_init): Delete.
+	(__gthread_active_p): Do activity check here.
+	Don't include errno.h on hppa-hpux.  Update comment.
+	* gthr-posix95.h (__gthread_active_init): Delete.
+	(__gthread_active_p): Do activity check here.
+	Don't include errno.h on hppa-hpux.  Update comment.
+
+2011-01-31  Nathan Froyd  <froydnj@codesourcery.com>
+
+	Backport from mainline:
+	2010-12-30  Nathan Froyd  <froydnj@codesourcery.com>
+
+	PR target/44606
+	* reload1.c (choose_reload_regs): Don't look for equivalences for
+	output reloads of constant loads.
+
+2011-01-17  H.J. Lu  <hongjiu.lu@intel.com>
+
+	Backport from mainline
+	2011-01-17  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR target/47318
+	* config/i386/avxintrin.h (_mm_maskload_pd): Change mask to
+	__m128i.
+	(_mm_maskstore_pd): Likewise.
+	(_mm_maskload_ps): Likewise.
+	(_mm_maskstore_ps): Likewise.
+	(_mm256_maskload_pd): Change mask to __m256i.
+	(_mm256_maskstore_pd): Likewise.
+	(_mm256_maskload_ps): Likewise.
+	(_mm256_maskstore_ps): Likewise.
+
+	* config/i386/i386-builtin-types.def: Updated.
+	(ix86_expand_special_args_builtin): Likewise.
+
+	* config/i386/i386.c (ix86_special_builtin_type): Remove
+	V8SF_FTYPE_PCV8SF_V8SF, V4DF_FTYPE_PCV4DF_V4DF,
+	V4SF_FTYPE_PCV4SF_V4SF, V2DF_FTYPE_PCV2DF_V2DF,
+	VOID_FTYPE_PV8SF_V8SF_V8SF, VOID_FTYPE_PV4DF_V4DF_V4DF,
+	VOID_FTYPE_PV4SF_V4SF_V4SF and VOID_FTYPE_PV2DF_V2DF_V2DF.
+	Add V8SF_FTYPE_PCV8SF_V8SI, V4DF_FTYPE_PCV4DF_V4DI,
+	V4SF_FTYPE_PCV4SF_V4SI, V2DF_FTYPE_PCV2DF_V2DI,
+	VOID_FTYPE_PV8SF_V8SI_V8SF, VOID_FTYPE_PV4DF_V4DI_V4DF,
+	VOID_FTYPE_PV4SF_V4SI_V4SF and VOID_FTYPE_PV2DF_V2DI_V2DF.
+	(bdesc_special_args): Update
+	__builtin_ia32_maskloadpd, __builtin_ia32_maskloadps,
+	__builtin_ia32_maskloadpd256, __builtin_ia32_maskloadps256,
+	__builtin_ia32_maskstorepd, __builtin_ia32_maskstoreps,
+	__builtin_ia32_maskstorepd256 and __builtin_ia32_maskstoreps256.
+	(ix86_init_mmx_sse_builtins): Updated.
+
+	* config/i386/sse.md (avx_maskload<ssemodesuffix><avxmodesuffix>):
+	Use <avxpermvecmode> on mask register.
+	(avx_maskstore<ssemodesuffix><avxmodesuffix>): Likewise.
+
+2011-01-16  Jakub Jelinek  <jakub@redhat.com>
+
+	Backport from mainline
+	2010-12-21  Jakub Jelinek  <jakub@redhat.com>
+
+	PR target/46880
+	* config/i386/sse.md (sse2_loadlpd, sse2_movsd): Fix shufpd source
+	operand.
+
+	PR middle-end/45852
+	* expr.c (store_expr): Ignore alt_rtl if equal to target,
+	but has side-effects.
+
+	2010-12-10  Jakub Jelinek  <jakub@redhat.com>
+
+	PR rtl-optimization/46865
+	* rtl.c (rtx_equal_p_cb): For last operand of
+	ASM_OPERANDS and ASM_INPUT if integers are different,
+	call locator_eq.
+	* jump.c (rtx_renumbered_equal_p): Likewise.
+
+2011-01-07  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	Backport from mainline:
+	2011-01-06  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	PR target/43309
+	* config/i386/i386.c (legitimize_tls_address)
+	<TLS_MODEL_INITIAL_EXEC>: Handle TARGET_64BIT && TARGET_SUN_TLS.
+	* config/i386/i386.md (UNSPEC_TLS_IE_SUN): Declare.
+	(tls_initial_exec_64_sun): New pattern.
+
+	2010-03-24  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	* config/i386/i386.c (override_options): Don't accept
+	-mtls-dialect=sun any longer.
+	* config/i386/i386.h (TARGET_SUN_TLS): Define as 0.
+	* config/i386/i386.md (*tls_global_dynamic_32_sun): Remove.
+	(*tls_local_dynamic_base_32_sun): Likewise.
+	* config/i386/sol2.h (TARGET_SUN_TLS): Redefine.
+
+2010-12-30  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* config/pa/pa.md: Add ",*" condition to 64-bit add/subtract boolean
+	patterns.
+
+2010-12-27  Yao Qi  <yao@codesourcery.com>
+
+	Backport from mainline:
+	2010-10-14  Yao Qi  <yao@codesourcery.com>
+
+	PR target/45447
+	* config/arm/arm.c (arm_build_builtin_va_list): Assign
+	va_list_name to TYPE_STUB_DECL (va_list_type).
+
+2010-12-22 John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	Backport from mainline:
+	2010-12-18  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/46915
+	* config/pa/pa.c (branch_to_delay_slot_p): Use next_active_insn instead
+	of next_real_insn.  Search forward checking for both ASM_INPUT and
+	ASM_OPERANDS asms until exit condition is found.
+	(branch_needs_nop_p): Likewise.
+	(use_skip_p): New function.
+	(output_cbranch): Use use_skip_p.
+	(output_bb, output_bvb): Likewise.
+
+	2009-06-25  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/40468
+	* pa.c (branch_to_delay_slot_p, branch_needs_nop_p): New functions.
+	(output_cbranch): Use new functions.
+	(output_bb, output_bvb, output_dbra, output_movb): Likewise.
+
+2010-12-13  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	Backport from mainline:
+	2010-09-15  Olivier Hainque  <hainque@adacore.com>
+		    Jose Ruiz  <ruiz@adacore.com>
+
+	* config/alpha/osf.h (MD_UNWIND_SUPPORT): Define.
+	* config/alpha/osf-unwind.h: New file.
+
+	2009-08-09  Olivier Hainque  <hainque@adacore.com>
+		    Douglas B Rupp  <rupp@gnat.com>
+
+	* config/alpha/alpha.h (DWARF_FRAME_REGNUM): Define.
+
+2010-12-13  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	Backport from mainline:
+	2010-04-28  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	PR target/22224
+	* config/alpha/osf.h (ASM_OUTPUT_LOCAL): Redefine.
+
+2010-12-13  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	Backport from mainline:
+	2010-11-12  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	* config/mips/iris.h [!IRIX_USING_GNU_LD]
+	(SUPPORTS_INIT_PRIORITY): Define.
+
+2010-12-13  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	Backport from mainline:
+	2010-11-02  Rainer Orth  <ro@CeBiTec.Uni-Bielefeld.DE>
+
+	* configure.ac (*-*-irix6*): Disable set_have_as_tls.
+	(*-*-osf*): Likewise.
+	* configure: Regenerate.
+
+2010-12-07  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/46534
+	* builtins.c (expand_builtin_printf): Don't copy and modify string
+	before build_string_literal, instead modify what
+	build_string_literal returned.
+
+	Backport from mainline
+	2010-11-18  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/46534
+	* builtins.c (fold_builtin_printf): Don't copy and modify string
+	before build_string_literal, instead modify what
+	build_string_literal returned.
+
+2010-12-05  Richard Guenther  <rguenther@suse.de>
+	    Ira Rosen  <irar@il.ibm.com>
+
+	PR tree-optimization/46663
+	* tree-vect-patterns.c (vect_recog_pow_pattern): Check that
+	FUNCTION_DECL exists and that it's a builtin.
+
+2010-11-29  Eric Botcazou  <ebotcazou@adacore.com>
+
+	PR rtl-optimization/46337
+	Backport from mainline
+	2009-04-20  Ian Lance Taylor  <iant@google.com>
+
+	* dse.c (replace_inc_dec): Reverse parameters to gen_int_mode.
+
+2010-11-12  Jakub Jelinek  <jakub@redhat.com>
+
+	Backport from mainline
+	2010-11-05  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/43690
+	* gimplify.c (gimplify_asm_expr): If a "m" input is a
+	{pre,post}{in,de}crement, fail.
+
+	2010-11-03  Jakub Jelinek  <jakub@redhat.com>
+
+	PR tree-optimization/46107
+	* cfgloopmanip.c (loop_version): Set irred_flag back into entry->flags
+	if cfg_hook_duplicate_loop_to_header_edge failed.
+
+2010-11-10  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR middle-end/46419
+	* config/i386/xmmintrin.h (_mm_cvtpi16_ps): Swap __hisi and __losi.
+	(_mm_cvtpu16_ps): Ditto.
+
+2010-11-04  Uros Bizjak  <ubizjak@gmail.com>
+
+	Revert:
+	2010-10-30  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR middle-end/44569
+	* lower-suberg.c (simplify_subreg_concatn): For VOIDmode elements,
+	determine the mode of a subreg by GET_MODE_INNER of CONCATN RTX.
+
+2010-11-04  Alan Modra  <amodra@gmail.com>
+
+	* config/rs6000/rs6000.c (rs6000_pic_labelno): Make static.
+	(rs6000_emit_load_toc_table): Don't use rs6000_pic_labelno when
+	TARGET_SECURE_PLT.
+	* config/rs6000/sysv4.h (rs6000_pic_labelno): Don't declare.
+	* config/rs6000/rs6000.md (load_toc_v4_PIC_3b): Use "b" constraint
+	on input, "r" on output.
+
+2010-10-30  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR middle-end/44569
+	* lower-suberg.c (simplify_subreg_concatn): For VOIDmode elements,
+	determine the mode of a subreg by GET_MODE_INNER of a CONCATN RTX.
+
+2010-10-22  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/45946
+	* config/i386/i386.md (*pushti2): New insn pattern.
+	(pushti2 splitter): New insn splitter.
+
+2010-10-20  Vladimir Makarov  <vmakarov@redhat.com>
+
+	PR fortran/42169
+	* ira-emit.c (store_can_be_removed_p): Return false instead of
+	gcc_unreachable.
+
+2010-10-18  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/46019
+	* fold-const.c (fold_binary_loc): If integer_pow2p has
+	TREE_INT_CST_LOW zero, look at TREE_INT_CST_HIGH.
+
+2010-10-07  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/45820
+	* config/pa/pa.c (pa_secondary_reload): Handle symbolic operands
+	earlier.
+
+2010-10-01  Jakub Jelinek  <jakub@redhat.com>
+
+	Backport from mainline
+	2010-09-30  Jakub Jelinek  <jakub@redhat.com>
+
+	PR target/45843
+	* config/i386/i386.c (ix86_gimplify_va_arg): Use
+	INTVAL (XEXP (slot, 1)) as prev_size.
+
+	2010-06-21  Jakub Jelinek  <jakub@redhat.com>
+
+	PR target/44575
+	* config/i386/i386.c (ix86_gimplify_va_arg): When copying
+	va_arg from a set of register save slots into a temporary,
+	if the container is bigger than type size, do the copying
+	using smaller mode or using memcpy.
+
+2010-10-01  Jakub Jelinek  <jakub@redhat.com>
+
+	* BASE-VER: Set to 4.4.6.
+	* DEV-PHASE: Set to prerelease.
+
 2010-10-01  Release Manager
 
 	* GCC 4.4.5 released.
@@ -111,9 +510,9 @@
 	2010-09-01  Ian Bolton  <ian.bolton@arm.com>
 
 	* Makefile.in (tree-switch-conversion.o): Update dependencies.
-	
+
 	2010-08-19  Ian Bolton  <ian.bolton@arm.com>
-	
+
 	PR target/45070
 	* config/arm/arm.c (arm_output_epilogue): Ensure that return
 	value of size 1-3 is handled correctly.
@@ -124,7 +523,7 @@
 	type for the conditional has wide enough range.
 
 	2010-08-07  Marcus Shawcroft  <marcus.shawcroft@arm.com>
-	
+
 	* config/arm/linux-atomic.c (SUBWORD_VAL_CAS): Instantiate with
 	'unsigned short' and 'unsigned char' instead of 'short' and 'char'.
 	(SUBWORD_BOOL_CAS): Likewise.
@@ -133,9 +532,9 @@
 	(FETCH_AND_OP_WORD): Parenthesise INF_OP
 	(SUBWORD_SYNC_OP): Likewise.
 	(OP_AND_FETCH_WORD): Likewise.
-	
+
 2010-09-02  Jakub Jelinek  <jakub@redhat.com>
-	
+
 	Backport from mainline
 	2010-08-30  Jakub Jelinek  <jakub@redhat.com>
 
