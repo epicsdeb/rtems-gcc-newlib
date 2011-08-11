@@ -176,7 +176,11 @@ typedef	long key_t;
 #endif
 typedef _ssize_t ssize_t;
 
-#ifndef __CYGWIN__
+#if defined(__rtems__)
+typedef _mode_t mode_t;
+#endif
+
+#if !defined(__CYGWIN__) && !defined(__rtems__)
 #ifdef __MS_types__
 typedef	char *	addr_t;
 typedef int mode_t;

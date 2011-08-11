@@ -82,7 +82,7 @@ typedef BUFHEAD **SEGMENT;
 
 /* Hash Table Information */
 typedef struct hashhdr {		/* Disk resident portion */
-	int		magic;		/* Magic NO for hash tables */
+	__uint32_t	magic;		/* Magic NO for hash tables */
 	int		version;	/* Version ID */
 	__uint32_t	lorder;		/* Byte Order */
 	int		bsize;		/* Bucket/Page Size */
@@ -97,7 +97,7 @@ typedef struct hashhdr {		/* Disk resident portion */
 	int		high_mask;	/* Mask to modulo into entire table */
 	int		low_mask;	/* Mask to modulo into lower half of 
 					 * table */
-	int		ffactor;	/* Fill factor */
+	__uint32_t	ffactor;	/* Fill factor */
 	int		nkeys;		/* Number of keys in hash table */
 	int		hdrpages;	/* Size of table header */
 	int		h_charkey;	/* value of hash(CHARKEY) */

@@ -49,18 +49,11 @@ size_t	 _EXFUN(strxfrm,(char *, const char *, size_t));
 #ifndef __STRICT_ANSI__
 char 	*_EXFUN(strtok_r,(char *, const char *, char **));
 
-int	 _EXFUN(bcmp,(const void *, const void *, size_t));
-void	 _EXFUN(bcopy,(const void *, void *, size_t));
-void	 _EXFUN(bzero,(void *, size_t));
-int	 _EXFUN(ffs,(int));
-char 	*_EXFUN(index,(const char *, int));
 _PTR	 _EXFUN(memccpy,(_PTR, const _PTR, int, size_t));
 _PTR	 _EXFUN(mempcpy,(_PTR, const _PTR, size_t));
 _PTR	 _EXFUN(memmem, (const _PTR, size_t, const _PTR, size_t));
-char 	*_EXFUN(rindex,(const char *, int));
 char 	*_EXFUN(stpcpy,(char *, const char *));
 char 	*_EXFUN(stpncpy,(char *, const char *, size_t));
-int	 _EXFUN(strcasecmp,(const char *, const char *));
 char	*_EXFUN(strcasestr,(const char *, const char *));
 char 	*_EXFUN(strdup,(const char *));
 char 	*_EXFUN(_strdup_r,(struct _reent *, const char *));
@@ -69,7 +62,6 @@ char 	*_EXFUN(_strndup_r,(struct _reent *, const char *, size_t));
 char 	*_EXFUN(strerror_r,(int, char *, size_t));
 size_t	 _EXFUN(strlcat,(char *, const char *, size_t));
 size_t	 _EXFUN(strlcpy,(char *, const char *, size_t));
-int	 _EXFUN(strncasecmp,(const char *, const char *, size_t));
 size_t	 _EXFUN(strnlen,(const char *, size_t));
 char 	*_EXFUN(strsep,(char **, const char *));
 char	*_EXFUN(strlwr,(char *));
@@ -79,20 +71,6 @@ char	*_EXFUN(strupr,(char *));
 char  *_EXFUN(strsignal, (int __signo));
 #endif
 int     _EXFUN(strtosigno, (const char *__name));
-#endif
-
-/* These function names are used on Windows and perhaps other systems.  */
-#ifndef strcmpi
-#define strcmpi strcasecmp
-#endif
-#ifndef stricmp
-#define stricmp strcasecmp
-#endif
-#ifndef strncmpi
-#define strncmpi strncasecmp
-#endif
-#ifndef strnicmp
-#define strnicmp strncasecmp
 #endif
 
 #endif /* ! __STRICT_ANSI__ */

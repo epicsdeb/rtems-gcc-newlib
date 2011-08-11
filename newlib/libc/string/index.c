@@ -10,7 +10,7 @@ ANSI_SYNOPSIS
 	char * index(const char *<[string]>, int <[c]>);
 
 TRAD_SYNOPSIS
-	#include <string.h>
+	#include <strings.h>
 	char * index(<[string]>, <[c]>);
 	char *<[string]>;
 	int *<[c]>;
@@ -33,7 +33,8 @@ QUICKREF
 	index - pure
 */
 
-#include <string.h>
+#include <strings.h>
+#include <string.h> /* strchr */
 
 char *
 _DEFUN (index, (s, c),

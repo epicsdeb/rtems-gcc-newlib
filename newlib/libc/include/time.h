@@ -212,7 +212,11 @@ extern "C" {
    the identifier of the CPU_time clock associated with the PROCESS
    making the function call.  */
 
+#if defined(__rtems__) && !defined( __STRICT_ANSI__)
+/* Don't use: Removed in rtems > 4.10 */
 #define CLOCK_PROCESS_CPUTIME (clockid_t)2
+#endif
+#define CLOCK_PROCESS_CPUTIME_ID (clockid_t)2
 
 #endif
 
@@ -222,7 +226,11 @@ extern "C" {
     the identifier of the CPU_time clock associated with the THREAD
     making the function call.  */
 
+#if defined(__rtems__) && !defined( __STRICT_ANSI__)
+/* Don't use: Removed in rtems > 4.10 */
 #define CLOCK_THREAD_CPUTIME (clockid_t)3
+#endif
+#define CLOCK_THREAD_CPUTIME_ID (clockid_t)3
 
 #endif
 

@@ -102,11 +102,11 @@ typedef enum { DB_BTREE, DB_HASH, DB_RECNO } DBTYPE;
 typedef struct __db {
 	DBTYPE type;			/* Underlying db type. */
 	int (*close)(struct __db *);
-	int (*del)(const struct __db *, const DBT *, u_int);
-	int (*get)(const struct __db *, const DBT *, DBT *, u_int);
-	int (*put)(const struct __db *, DBT *, const DBT *, u_int);
-	int (*seq)(const struct __db *, DBT *, DBT *, u_int);
-	int (*sync)(const struct __db *, u_int);
+	int (*del)(const struct __db *, const DBT *, __uint32_t);
+	int (*get)(const struct __db *, const DBT *, DBT *, __uint32_t);
+	int (*put)(const struct __db *, DBT *, const DBT *, __uint32_t);
+	int (*seq)(const struct __db *, DBT *, DBT *, __uint32_t);
+	int (*sync)(const struct __db *, __uint32_t);
 	void *internal;			/* Access method private. */
 	int (*fd)(const struct __db *);
 } DB;

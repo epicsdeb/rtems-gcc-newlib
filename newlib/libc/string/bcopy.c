@@ -3,7 +3,7 @@ FUNCTION
 	<<bcopy>>---copy memory regions
 
 ANSI_SYNOPSIS
-	#include <string.h>
+	#include <strings.h>
 	void bcopy(const void *<[in]>, void *<[out]>, size_t <[n]>);
 
 TRAD_SYNOPSIS
@@ -26,7 +26,7 @@ QUICKREF
 	bcopy - pure
 */
 
-#include <string.h>
+#include <strings.h>
 
 void
 _DEFUN (bcopy, (b1, b2, length),

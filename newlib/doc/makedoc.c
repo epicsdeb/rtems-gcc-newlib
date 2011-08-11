@@ -57,7 +57,7 @@ typedef struct buffer
 {
     char *ptr;
     unsigned int write_idx;
-    unsigned int size;
+    size_t size;
 } string_type;
 
 
@@ -68,7 +68,7 @@ typedef struct buffer
 
 static void DEFUN(init_string_with_size,(buffer, size),
 	   string_type *buffer AND
-	   unsigned int size )
+	   size_t size )
 {
   buffer->write_idx = 0;
   buffer->size = size;
@@ -219,8 +219,8 @@ typedef void (*stinst_type)(NOARGS);
 stinst_type *pc;
 stinst_type sstack[STACK];
 stinst_type *ssp = &sstack[0];
-int istack[STACK];
-int *isp = &istack[0];
+long istack[STACK];
+long *isp = &istack[0];
 
 typedef int *word_type;
 
@@ -270,7 +270,7 @@ WORD(push_number)
 {
     isp++;
     pc++;
-    *isp = (int)(*pc);
+    *isp = (long)(*pc);
     pc++;
     
 }

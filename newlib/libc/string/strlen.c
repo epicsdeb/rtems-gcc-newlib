@@ -32,11 +32,12 @@ QUICKREF
 */
 
 #include <_ansi.h>
+#include <stdint.h>
 #include <string.h>
 #include <limits.h>
 
 #define LBLOCKSIZE   (sizeof (long))
-#define UNALIGNED(X) ((long)X & (LBLOCKSIZE - 1))
+#define UNALIGNED(X) ((intptr_t)X & (LBLOCKSIZE - 1))
 
 #if LONG_MAX == 2147483647L
 #define DETECTNULL(X) (((X) - 0x01010101) & ~(X) & 0x80808080)

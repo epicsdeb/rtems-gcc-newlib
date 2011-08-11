@@ -33,7 +33,7 @@ extern "C" {
 #define _POSIX_VERSION			199309L
 #define _POSIX_ASYNCHRONOUS_IO		1
 #define _POSIX_FSYNC			1
-#define _POSIX_MAPPED_FILES		1
+/* #define _POSIX_MAPPED_FILES		1 */
 #define _POSIX_MEMLOCK			1
 #define _POSIX_MEMLOCK_RANGE		1
 #define _POSIX_MEMORY_PROTECTION	1

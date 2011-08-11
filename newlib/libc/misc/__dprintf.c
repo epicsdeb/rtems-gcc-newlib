@@ -5,6 +5,7 @@
 */
 
 #include <_ansi.h>
+#include <stdint.h>
 #include "ctype.h"
 #include "reent.h"
 #include "string.h"
@@ -131,7 +132,7 @@ __dprintf (fmt, va_alist)
 	      write_string (unctrl (c));
 	      break;
 	    case 'p' :
-	      l = (_POINTER_INT) va_arg (args, char *);
+	      l = (intptr_t) va_arg (args, char *);
 	      print_number (16, 1, l);
 	      break;
 	    case 'd' :
