@@ -1,0 +1,9 @@
+2011-04-20	Ralf Corsépius <ralf.corsepius@rtems.org>
+
+	* configure, configure.ac (PPL): Merge gcc-4.6.0's ppl detection 
+	  (Work-around build breakdown on fedora 15).
+
+		Ralf Corsépius <ralf.corsepius@rtems.org>
+
+	* configure, configure.ac (skipdirs): Add target-libiberty.
+

@@ -935,7 +935,8 @@ Optional Features:
   --enable-gold           use gold instead of ld
   --enable-libada         build libada directory
   --enable-libssp         build libssp directory
-  --disable-ppl-version-check    disable check for PPL version
+  --disable-ppl-version-check
+                          disable check for PPL version
   --disable-cloog-version-check  disable check for CLooG version
   --enable-stage1-languages[=all]   choose additional languages to build during
                           stage1.  Mostly useful for compiler development.
@@ -971,11 +972,12 @@ Optional Packages:
   --with-gmp-lib=PATH     specify directory for the installed GMP library
   --with-host-libstdcxx=L Use linker arguments L to link with libstdc++
                           when linking with PPL
-  --with-ppl=PATH         Specify prefix directory for the installed PPL package
-                          Equivalent to --with-ppl-include=PATH/include
-                          plus --with-ppl-lib=PATH/lib
-  --with-ppl-include=PATH Specify directory for installed PPL include files
-  --with-ppl-lib=PATH     Specify the directory for the installed PPL library
+  --with-ppl=PATH         specify prefix directory for the installed PPL
+                          package. Equivalent to
+                          --with-ppl-include=PATH/include plus
+                          --with-ppl-lib=PATH/lib
+  --with-ppl-include=PATH specify directory for installed PPL include files
+  --with-ppl-lib=PATH     specify directory for the installed PPL library
   --with-cloog=PATH       Specify prefix directory for the installed CLooG-PPL package
                           Equivalent to --with-cloog-include=PATH/include
                           plus --with-cloog-lib=PATH/lib
@@ -2267,6 +2269,7 @@ case "${target}" in
     noconfigdirs="$noconfigdirs target-newlib target-libiberty target-libgloss ${libgcj} target-libmudflap"
     ;;
   *-*-rtems*)
+    skipdirs="$skipdirs target-libiberty"
     noconfigdirs="$noconfigdirs target-libgloss ${libgcj}"
     ;;
     # The tpf target doesn't support gdb yet.
@@ -4829,10 +4832,9 @@ echo "$as_me: error: -with-host-libstdcxx needs an argument" >&2;}
 esac
 
 # Check for PPL
-ppl_major_version=0
-ppl_minor_version=10
-ppllibs=" -lppl_c -lppl -lgmpxx $with_host_libstdcxx "
+ppllibs=
 pplinc=
+pwllib=
 
 
 # Check whether --with-ppl or --without-ppl was given.
@@ -4841,55 +4843,143 @@ if test "${with_ppl+set}" = set; then
 
 fi;
 
-# Check whether --with-ppl_include or --without-ppl_include was given.
+# Check whether --with-ppl-include or --without-ppl-include was given.
 if test "${with_ppl_include+set}" = set; then
   withval="$with_ppl_include"
 
 fi;
 
-# Check whether --with-ppl_lib or --without-ppl_lib was given.
+# Check whether --with-ppl-lib or --without-ppl-lib was given.
 if test "${with_ppl_lib+set}" = set; then
   withval="$with_ppl_lib"
 
 fi;
 
-case $with_ppl in
-  no)
-    ppllibs=
-    ;;
-  *)
-    ppllibs="-L$with_ppl/lib -lppl_c -lppl -lgmpxx $with_host_libstdcxx"
-    pplinc="-I$with_ppl/include $pplinc"
-    LIBS="$ppllibs $LIBS"
-    ;;
-esac
-if test "x$with_ppl_include" != x; then
-  pplinc="-I$with_ppl_include $pplinc"
-fi
-if test "x$with_ppl_lib" != x; then
-  ppllibs="-L$with_ppl_lib -lppl_c -lppl -lgmpxx $with_host_libstdcxx"
-  LIBS="$ppllibs $LIBS"
-fi
-if test "x$with_ppl$with_ppl_include$with_ppl_lib" = x && test -d ${srcdir}/ppl; then
-  ppllibs='-L$$r/$(HOST_SUBDIR)/ppl/.libs -L$$r/$(HOST_SUBDIR)/ppl/_libs -lppl_c -lppl -lgmpxx '"$with_host_libstdcxx "
-  pplinc='-I$$r/$(HOST_SUBDIR)/ppl/include -I$$s/ppl/include '
-  LIBS="$ppllibs $LIBS"
-fi
-
 # Check whether --enable-ppl-version-check or --disable-ppl-version-check was given.
 if test "${enable_ppl_version_check+set}" = set; then
   enableval="$enable_ppl_version_check"
-  ENABLE_PPL_CHECK=$enableval
-else
-  ENABLE_PPL_CHECK=yes
+
 fi;
 
-if test "${ENABLE_PPL_CHECK}" = "yes"; then
-  saved_CFLAGS="$CFLAGS"
-  CFLAGS="$CFLAGS $pplinc $gmpinc"
-  echo "$as_me:$LINENO: checking for version $ppl_major_version.$ppl_minor_version of PPL" >&5
-echo $ECHO_N "checking for version $ppl_major_version.$ppl_minor_version of PPL... $ECHO_C" >&6
-  cat >conftest.$ac_ext <<_ACEOF
+case $with_ppl in
+  yes | no | "")
+    ;;
+  *)
+    ppllibs="-L$with_ppl/lib"
+    pplinc="-I$with_ppl/include $pplinc"
+    if test -d "$with_ppl/lib" && test -d "$with_ppl/include"; then
+      with_ppl=yes
+    else
+      { { echo "$as_me:$LINENO: error: cannot find directories \"$with_ppl/lib\" or \"$with_ppl/include\"" >&5
+echo "$as_me: error: cannot find directories \"$with_ppl/lib\" or \"$with_ppl/include\"" >&2;}
+   { (exit 1); exit 1; }; }
+    fi
+    ;;
+esac
+
+if test x"$with_ppl_include" != x; then
+  pplinc="-I$with_ppl_include $pplinc"
+  with_ppl=yes
+fi
+
+if test "x$with_ppl_lib" != x; then
+  ppllibs="-L$with_ppl_lib"
+  with_ppl=yes
+fi
+
+if test x"$with_ppl$with_ppl_include$with_ppl_lib" = x && test -d ${srcdir}/ppl; then
+  if test x"$enable_watchdog" = xyes; then
+    pwllib="-lpwl"
+  fi
+  ppllibs='-L$$r/$(HOST_SUBDIR)/ppl/interfaces/C/'"$lt_cv_objdir"' -L$$r/$(HOST_SUBDIR)/ppl/src/'"$lt_cv_objdir"
+  pplinc='-I$$r/$(HOST_SUBDIR)/ppl/src -I$$r/$(HOST_SUBDIR)/ppl/interfaces/C '
+  enable_ppl_version_check=no
+  with_ppl=yes
+fi
+
+if test "x$with_ppl" != xno; then
+  if test "x$pwllib" = x; then
+    saved_LDFLAGS="$LDFLAGS"
+    LDFLAGS="$LDFLAGS $ppllibs"
+    echo "$as_me:$LINENO: checking for PWL_handle_timeout in -lpwl" >&5
+echo $ECHO_N "checking for PWL_handle_timeout in -lpwl... $ECHO_C" >&6
+if test "${ac_cv_lib_pwl_PWL_handle_timeout+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lpwl  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char PWL_handle_timeout ();
+int
+main ()
+{
+PWL_handle_timeout ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_pwl_PWL_handle_timeout=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_pwl_PWL_handle_timeout=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_pwl_PWL_handle_timeout" >&5
+echo "${ECHO_T}$ac_cv_lib_pwl_PWL_handle_timeout" >&6
+if test $ac_cv_lib_pwl_PWL_handle_timeout = yes; then
+  pwllib="-lpwl"
+fi
+
+    LDFLAGS="$saved_LDFLAGS"
+  fi
+
+  ppllibs="$ppllibs -lppl_c -lppl $pwllib -lgmpxx"
+
+  if test "$enable_ppl_version_check" != no; then
+    saved_CFLAGS="$CFLAGS"
+    CFLAGS="$CFLAGS $pplinc $gmpinc"
+    echo "$as_me:$LINENO: checking for version 0.10 (revision 0 or later) of PPL" >&5
+echo $ECHO_N "checking for version 0.10 (revision 0 or later) of PPL... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
@@ -4900,9 +4990,9 @@ int
 main ()
 {
 
-  #if PPL_VERSION_MAJOR != $ppl_major_version || PPL_VERSION_MINOR != $ppl_minor_version
-  choke me
-  #endif
+    #if PPL_VERSION_MAJOR != 0 || PPL_VERSION_MINOR < 10
+    choke me
+    #endif
 
   ;
   return 0;
@@ -4937,10 +5027,11 @@ else
 sed 's/^/| /' conftest.$ac_ext >&5
 
 echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; ppllibs= ; pplinc=
+echo "${ECHO_T}no" >&6; ppllibs= ; pplinc= ; with_ppl=no
 fi
 rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-  CFLAGS="$saved_CFLAGS"
+    CFLAGS="$saved_CFLAGS"
+  fi
 fi
 
 # Flags needed for PPL
@@ -6259,7 +6350,7 @@ case " $target_configdirs " in
        # to it.  This is right: we don't want to search that directory
        # for binaries, but we want the header files in there, so add
        # them explicitly.
-       FLAGS_FOR_TARGET=$FLAGS_FOR_TARGET' -isystem $$r/$(HOST_SUBDIR)/gcc/include'
+       FLAGS_FOR_TARGET=$FLAGS_FOR_TARGET' -isystem $$r/$(HOST_SUBDIR)/gcc/include -isystem $$r/$(HOST_SUBDIR)/gcc/include-fixed'
 
        # Someone might think of using the pre-installed headers on
        # Canadian crosses, in case the installed compiler is not fully

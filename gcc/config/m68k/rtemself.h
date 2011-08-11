@@ -31,3 +31,8 @@ along with GCC; see the file COPYING3.  If not see
 	builtin_assert ("system=rtems");	\
     }						\
   while (0)
+
+/* Use the defaults */
+#undef WCHAR_TYPE
+
+#undef WCHAR_TYPE_SIZE
