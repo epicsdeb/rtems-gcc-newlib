@@ -1,3 +1,9 @@
+2011-08-29	Ralf Corsépius <ralf.corsepius@rtems.org> 
+	and Eric Norum <wenorum@lbl.gov>
+
+	Fix bootstrap breakdowns on OS X 10.7.1 (Lion):
+	* toplev.h, toplev.c: Switch-off "extern inline" if using clang.
+
 2011-02-20	Ralf Corsépius <ralf.corsepius@rtems.org>
 
 	* config/rs6000/t-rtems: Remove -mcpu=601 multilib.
