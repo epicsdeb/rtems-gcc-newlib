@@ -81,7 +81,7 @@ toollib_LIBRARIES = libm.a \
 	libc.a
 endif
 
-noinst_DATA = stmp-targ-include
+BUILT_SOURCES = stmp-targ-include
 
 toollib_DATA = $(CRT0) $(CRT1)
 

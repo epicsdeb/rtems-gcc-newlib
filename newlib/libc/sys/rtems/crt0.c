@@ -24,8 +24,8 @@ ret func
 /* RTEMS provides some of its own routines including a Malloc family */
 RTEMS_STUB(void *,malloc(size_t s)) { return 0; }
 RTEMS_STUB(void *,realloc(void* p, size_t s)) { return 0; }
-RTEMS_STUB(void, free(void)) { ; }
-RTEMS_STUB(_PTR, calloc(struct _reent *r, size_t s1, size_t s2)) {}
+RTEMS_STUB(void, free(void* ptr)) { ; }
+RTEMS_STUB(_PTR, calloc(size_t s1, size_t s2)) {}
 
 #if defined(__GNUC__)
 /*
@@ -49,6 +49,7 @@ int rtems_gxx_recursive_mutex_unlock() { return -1; }
 #endif
 
 /* stubs for functions RTEMS provides */
+RTEMS_STUB(int, clock_gettime(clockid_t clk_id, struct timespec *tp)) { return -1; }
 RTEMS_STUB(int, close (int fd)) { return -1; }
 RTEMS_STUB(int, dup2(int oldfd, int newfd)) { return -1; }
 RTEMS_STUB(int, fcntl( int fd, int cmd, ... /* arg */ )) { return -1; }
@@ -56,6 +57,7 @@ RTEMS_STUB(pid_t, fork(void)) { return -1; }
 RTEMS_STUB(int, fstat(int fd, struct stat *buf)) { return -1; }
 RTEMS_STUB(int, getdents(int fd, void *dp, int count)) { return -1; }
 RTEMS_STUB(char *, getlogin(void)) { return 0; }
+RTEMS_STUB(int, gettimeofday(struct timeval *tv, struct timezone *tz)) { return -1; }
 RTEMS_STUB(struct passwd *, getpwnam(const char *name)) { return 0; }
 RTEMS_STUB(struct passwd *, getpwuid(uid_t uid)) { return 0; }
 RTEMS_STUB(uid_t, getuid(void)) { return 0; }
@@ -65,6 +67,7 @@ RTEMS_STUB(int, lstat(const char *path, struct stat *buf)) { return -1; }
 RTEMS_STUB(int, open(const char *pathname, int flags, int mode)) { return -1; }
 RTEMS_STUB(int, pipe(int pipefd[2])) { return -1; }
 RTEMS_STUB(_ssize_t, read(int fd, void *buf, size_t count)) { return -1; }
+RTEMS_STUB(int, sched_yield(void)) { return -1; }
 RTEMS_STUB(int, sigfillset(sigset_t *set)) { return -1; }
 RTEMS_STUB(int, sigprocmask(int how, const sigset_t *set, sigset_t *oldset)) { return -1; }
 RTEMS_STUB(int, stat(const char *path, struct stat *buf)) { return -1; }
@@ -95,7 +98,7 @@ RTEMS_STUB(int, _isatty_r (struct _reent *r, int fd)) { return isatty( fd ); }
 RTEMS_STUB(int, _kill_r (struct _reent *r, int pid, int sig )) { return -1; }
 #if !defined(REENTRANT_SYSCALLS_PROVIDED)
 /* cf. newlib/libc/reent/linkr.c */
-RTEMS_STUB(int, _link_r (struct _reent *, const char *, const char *)) { return -1; }
+RTEMS_STUB(int, _link_r (struct _reent *r, const char *oldpath, const char *newpath)) { return -1; }
 #endif
 RTEMS_STUB(_off_t, _lseek_r ( struct _reent *ptr, int fd, _off_t offset, int whence )) { return -1; }
 RTEMS_STUB(int, _open_r (struct _reent *r, const char *buf, int flags, int mode)) { return -1; }
@@ -103,14 +106,14 @@ RTEMS_STUB(_ssize_t, _read_r (struct _reent *r, int fd, void *buf, size_t nbytes
 RTEMS_STUB(int, _rename_r (struct _reent *r, const char *a, const char *b)){ return -1; }
 #if !(defined (REENTRANT_SYSCALLS_PROVIDED) || defined (MALLOC_PROVIDED))
 /* cf. newlib/libc/reent/sbrkr.c */
-RTEMS_STUB(void *,_sbrk_r (struct _reent *r, ptrdiff_t)) { return -1; }
+RTEMS_STUB(void *,_sbrk_r (struct _reent *r, ptrdiff_t addr)) { return 0; }
 #endif
 RTEMS_STUB(int, _stat_r (struct _reent *r, const char *path, struct stat *buf)) { return -1; }
 RTEMS_STUB(_CLOCK_T_, _times_r (struct _reent *r, struct tms *ptms)) { return -1; }
 RTEMS_STUB(int, _unlink_r (struct _reent *r, const char *path)) { return -1; }
 #if !(defined (REENTRANT_SYSCALLS_PROVIDED) || defined (NO_EXEC))
 /* cf. newlib/libc/reent/execr.c */
-RTEMS_STUB(int, _wait_r (struct _reent *r, int *)) { return -1; }
+RTEMS_STUB(int, _wait_r (struct _reent *r, int *status)) { return -1; }
 #endif
 RTEMS_STUB(_ssize_t, _write_r (struct _reent *r, int fd, const void *buf, size_t nbytes)) { return -1; }
 

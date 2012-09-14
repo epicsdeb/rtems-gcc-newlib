@@ -17,6 +17,7 @@
  * should use scalbn() instead.
  */
 
+#include <limits.h>
 #include "fdlibm.h"
 
 #ifndef _DOUBLE_IS_32BITS
@@ -46,8 +47,17 @@
 	    else       return x/(-fn);
 	}
 	if (rint(fn)!=fn) return (fn-fn)/(fn-fn);
+#if (INT_MAX < 65000)
+	if ( fn > (double) INT_MAX) return scalbn(x, INT_MAX);
+#else
 	if ( fn > 65000.0) return scalbn(x, 65000);
-	if (-fn > 65000.0) return scalbn(x,-65000);
+#endif
+
+#if (INT_MIN > -65000)
+        if (fn < (double) INT_MIN) return scalbn(x,INT_MIN);
+#else
+	if (fn < -65000.0) return scalbn(x,-65000);
+#endif
 	return scalbn(x,(int)fn);
 #endif
 }

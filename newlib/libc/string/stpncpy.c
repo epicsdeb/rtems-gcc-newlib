@@ -40,6 +40,7 @@ QUICKREF
 */
 
 #include <string.h>
+#include <stdint.h>
 #include <limits.h>
 
 /*SUPPRESS 560*/
@@ -47,7 +48,7 @@ QUICKREF
 
 /* Nonzero if either X or Y is not aligned on a "long" boundary.  */
 #define UNALIGNED(X, Y) \
-  (((long)X & (sizeof (long) - 1)) | ((long)Y & (sizeof (long) - 1)))
+  (((intptr_t)X & (sizeof (long) - 1)) | ((intptr_t)Y & (sizeof (long) - 1)))
 
 #if LONG_MAX == 2147483647L
 #define DETECTNULL(X) (((X) - 0x01010101) & ~(X) & 0x80808080)

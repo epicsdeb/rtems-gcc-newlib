@@ -33,7 +33,7 @@ extern "C" {
 /* Check if "long" is 64bit or 32bit wide */
 #if __STDINT_EXP(LONG_MAX) > 0x7fffffff
 #define __have_long64 1
-#elif __STDINT_EXP(LONG_MAX) == 0x7fffffff && !defined(__SPU__)
+#elif __STDINT_EXP(LONG_MAX) == 0x7fffffff
 #define __have_long32 1
 #endif
 
@@ -49,13 +49,13 @@ typedef unsigned char uint_least8_t;
 #define __int_least8_t_defined 1
 #endif
 
-#if __STDINT_EXP(SHRT_MAX) == 0x7fff
-typedef signed short int16_t;
-typedef unsigned short uint16_t;
-#define __int16_t_defined 1
-#elif __STDINT_EXP(INT_MAX) == 0x7fff
+#if __STDINT_EXP(INT_MAX) == 0x7fff
 typedef signed int int16_t;
 typedef unsigned int uint16_t;
+#define __int16_t_defined 1
+#elif __STDINT_EXP(SHRT_MAX) == 0x7fff
+typedef signed short int16_t;
+typedef unsigned short uint16_t;
 #define __int16_t_defined 1
 #elif __STDINT_EXP(SCHAR_MAX) == 0x7fff
 typedef signed char int16_t;
@@ -239,6 +239,29 @@ typedef uint64_t  	uint_least32_t;
  * GCC doesn't provide an appropriate macro for [u]intptr_t
  * For now, use __PTRDIFF_TYPE__
  */
+#if defined(__SIZEOF_POINTER__)
+#if __SIZEOF_POINTER__ == 8
+  typedef int64_t intptr_t;
+  typedef uint64_t uintptr_t;
+#define INTPTR_MAX INT64_MAX
+#define INTPTR_MIN INT64_MIN
+#define UINTPTR_MAX UINT64_MAX
+#elif __SIZEOF_POINTER__ == 4
+  typedef int32_t intptr_t;
+  typedef uint32_t uintptr_t;
+#define INTPTR_MAX INT32_MAX
+#define INTPTR_MIN INT32_MIN
+#define UINTPTR_MAX UINT32_MAX
+#elif __SIZEOF_POINTER__ == 2
+  typedef int16_t intptr_t;
+  typedef uint16_t uintptr_t;
+#define INTPTR_MAX INT16_MAX
+#define INTPTR_MIN INT16_MIN
+#define UINTPTR_MAX UINT16_MAX
+#else
+#error cannot determine intptr_t
+#endif
+#else
 #if defined(__PTRDIFF_TYPE__)
 typedef signed __PTRDIFF_TYPE__ intptr_t;
 typedef unsigned __PTRDIFF_TYPE__ uintptr_t;
@@ -259,6 +282,7 @@ typedef unsigned long uintptr_t;
 #define INTPTR_MAX __STDINT_EXP(LONG_MAX)
 #define INTPTR_MIN (-__STDINT_EXP(LONG_MAX) - 1)
 #define UINTPTR_MAX (__STDINT_EXP(LONG_MAX) * 2UL + 1)
+#endif
 #endif
 
 /* Limits of Specified-Width Integer Types */
@@ -408,6 +432,8 @@ typedef unsigned long uintptr_t;
 /* This must match size_t in stddef.h, currently long unsigned int */
 #ifdef __SIZE_MAX__
 #define SIZE_MAX __SIZE_MAX__
+#elif defined(__SIZEOF_SIZE_T__) && defined(__CHAR_BIT__)
+#define SIZE_MAX (((1UL << (__SIZEOF_SIZE_T__ * __CHAR_BIT__ - 1)) - 1) * 2 + 1)
 #else
 #define SIZE_MAX (__STDINT_EXP(LONG_MAX) * 2UL + 1)
 #endif

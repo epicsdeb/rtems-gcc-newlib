@@ -37,6 +37,7 @@
 static char sccsid[] = "@(#)readdir.c	5.7 (Berkeley) 6/1/90";
 #endif /* LIBC_SCCS and not lint */
 
+#include <stdint.h>
 #include <dirent.h>
 
 extern int getdents (int fd, void *dp, int count);
@@ -75,7 +76,7 @@ _DEFUN(readdir, (dirp),
       continue;
     }
     dp = (struct dirent *)(dirp->dd_buf + dirp->dd_loc);
-    if ((int)dp & 03) {	/* bogus pointer check */
+    if ((intptr_t)dp & 03) {	/* bogus pointer check */
 #ifdef HAVE_DD_LOCK
       __lock_release_recursive(dirp->dd_lock);
 #endif

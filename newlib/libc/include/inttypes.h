@@ -242,15 +242,17 @@
 #define SCNxMAX		__SCNMAX(x)
 
 /* ptr types */
-#if __have_long64
-#define __PRIPTR(x) __STRINGIFY(l##x)
-#define __SCNPTR(x) __STRINGIFY(l##x)
-#elif __have_longlong64
-#define __PRIPTR(x) __STRINGIFY(ll##x)
-#define __SCNPTR(x) __STRINGIFY(ll##x)
+#if INTPTR_MAX == INT64_MAX
+#define __PRIPTR(x) __PRI64(x)
+#define __SCNPTR(x) __SCN64(x)
+#elif INTPTR_MAX == INT32_MAX
+#define __PRIPTR(x) __PRI32(x)
+#define __SCNPTR(x) __SCN32(x)
+#elif INTPTR_MAX == INT16_MAX
+#define __PRIPTR(x) __PRI16(x)
+#define __SCNPTR(x) __SCN16(x)
 #else
-#define __PRIPTR(x) __STRINGIFY(x)
-#define __SCNPTR(x) __STRINGIFY(x)
+#error cannot determine PRI*PTR
 #endif
 
 #define PRIdPTR		__PRIPTR(d)

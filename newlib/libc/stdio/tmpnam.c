@@ -94,6 +94,7 @@ The global pointer <<environ>> is also required.
 #include <_ansi.h>
 #include <reent.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
@@ -109,7 +110,7 @@ _DEFUN(worker, (ptr, result, part1, part2, part3, part4),
        char *result       _AND
        _CONST char *part1 _AND
        _CONST char *part2 _AND
-       int part3          _AND
+       intptr_t part3     _AND
        int *part4)
 {
   /*  Generate the filename and make sure that there isn't one called
@@ -183,7 +184,7 @@ _DEFUN(_tempnam_r, (p, dir, pfx),
   if (filename)
     {
       if (! worker (p, filename, dir, prefix,
-		    _getpid_r (p) ^ (int) (_POINTER_INT) p, &p->_inc))
+		    _getpid_r (p) ^ (intptr_t) p, &p->_inc))
 	return NULL;
     }
   return filename;

@@ -1,0 +1,6 @@
+gcc-rtems4.10 for Debian
+-----------------------
+
+Vanilla GCC 4.4.6 w/ newlib 1.18.0 and RTEMS patches: gcc-core-20110420 and newlib-20110518
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Thu, 11 Aug 2011 18:11:06 -0400
