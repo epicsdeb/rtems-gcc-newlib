@@ -1,3 +1,421 @@
+2012-03-13  Release Manager
+
+	* GCC 4.4.7 released.
+
+2012-03-05  Martin Jambor  <mjambor@suse.cz>
+
+	PR tree-optimization/52430
+	* ipa-cp.c (ipcp_initialize_node_lattices): Also consider
+	node->local.externally_visible as needed.
+
+2012-03-04  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	Backport from mainline
+	2012-03-01  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/52408
+	* config/pa/pa.md (zvdep_imm32): Change type of variable x from int to
+	unsigned HOST_WIDE_INT.
+	(zvdep_imm64): Likewise.
+	(vdepi_ior): Change type of variable x from int to HOST_WIDE_INT.
+	(vdepi_and): Likewise.
+	Likewise for unamed 64-bit patterns.
+	* config/pa/predicates.md (lhs_lshift_cint_operand): Update comment.
+
+2012-02-23  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR c/52290
+	* c-decl.c (start_function): Exit early if decl1 is not FUNTION_DECL.
+
+2012-02-22  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/52330
+	* config/i386/i386.c (ix86_print_operand) <case 'H'>: Error out if x
+	is not offsettable memory reference.
+
+2012-01-15  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR rtl-optimization/51821
+	* recog.c (peep2_find_free_register): Determine clobbered registers
+	from insn pattern.
+
+2012-01-09  Richard Sandiford  <rdsandiford@googlemail.com>
+
+	* config/mips/mips.md (loadgp_newabi_<mode>): Add missing earlyclobber.
+
+2011-12-21  Uros Bizjak  <ubizjak@gmail.com>
+
+	* config/alpha/linux-unwind.h: Update copyright years.
+	(MD_FROB_UPDATE_CONTEXT): New define.
+	(alpha_frob_update_context): New function.
+
+2011-12-13  Andreas Krebbel  <Andreas.Krebbel@de.ibm.com>
+
+	* regmove.c (fixup_match_2): Only access call_used_regs with hard regs.
+
+2011-12-09  Kazu Hirata  <kazu@codesourcery.com>
+
+	Backport from mainline:
+	2011-12-05  Kazu Hirata  <kazu@codesourcery.com>
+
+	PR target/51408
+	* config/arm/arm.md (*minmax_arithsi): Always require the else
+	clause in the MINUS case.
+
+2011-12-08  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from mainline
+	2011-12-04  Jérémie Detrey  <Jeremie.Detrey@loria.fr>
+
+	PR target/51393
+	* config/i386/avxintrin.h (_mm256_insert_epi64): Declare second
+	parameter as long long.
+
+2011-11-07  Alan Modra  <amodra@gmail.com>
+
+	PR target/30282
+	* config/rs6000/rs6000.c (rs6000_emit_stack_reset): Always emit
+	blockage for ABI_V4.
+
+2011-10-29  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/50691
+	* config/pa/pa.c (emit_move_sequence): Legitimize TLS symbol references.
+	* config/pa/pa.h (LEGITIMATE_CONSTANT_P): Return false for
+	TLS_MODEL_GLOBAL_DYNAMIC and TLS_MODEL_LOCAL_DYNAMIC symbol references.
+
+2011-10-23  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/50788
+	* config/i386/sse.md (avx_maskload<ssemodesuffix><avxmodesuffix>):
+	Remove (match_dup 0).
+
+2011-10-18  Uros Bizjak  <ubizjak@gmail.com>
+	    Eric Botcazou  <ebotcazou@adacore.com>
+
+	PR target/50737
+	* config/alpha/linux-unwind.h (alpha_fallback_frame_state): Set
+	fs->signal_frame to 1.
+
+2011-08-06  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/50001
+	* config/alpha/alpha.c (alpha_instantiate_decls): New function.
+	(TARGET_INSTANTIATE_DECLS): New define.
+
+2011-07-31  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/49920
+	* config/i386/i386.md (strset): Do not expand strset_singleop
+	when %eax or $edi are fixed.
+	(*strsetdi_rex_1): Disable when %eax or %edi are fixed.
+	(*strsetsi_1): Ditto.
+	(*strsetsi_rex_1): Ditto.
+	(*strsethi_1): Ditto.
+	(*strsethi_rex_1): Ditto.
+	(*strsetqi_1): Ditto.
+	(*strsetqi_rex_1): Ditto.
+	(*rep_stosdi_rex64): Disable when %eax, %ecx or %edi are fixed.
+	(*rep_stossi): Ditto.
+	(*rep_stossi_rex64): Ditto.
+	(*rep_stosqi): Ditto.
+	(*rep_stosqi_rex64): Ditto.
+	(*strlenqi_1): Ditto.
+	(*strlenqi_rex_1): Ditto.
+	(cmpstrnsi): Also fail when %ecx is fixed.
+	(*cmpstrnqi_nz_1): Disable when %ecx, %esi or %edi are fixed.
+	(*cmpstrnqi_nz_rex_1): Ditto.
+	(*cmpstrnqi_1): Ditto.
+	(*cmpstrnqi_rex_1): Ditto.
+	(*strmovdi_rex_1): Disable when %esi or %edi are fixed.
+	(*strmovsi_1): Ditto.
+	(*strmovsi_rex_1): Ditto.
+	(*strmovhi_1): Ditto.
+	(*strmovhi_rex_1): Ditto.
+	(*strmovqi_1): Ditto.
+	(*strmovqi_rex_1): Ditto.
+	(*rep_movdi_rex64): Disable when %ecx, %esi or %edi are fixed.
+	(*rep_movsi): Ditto.
+	(*rep_movsi_rex64): Ditto.
+	(*rep_movqi): Ditto.
+	(*rep_movqi_rex64): Ditto.
+
+2011-07-28  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/47364
+	* config/i386/i386.md (strlensi): Enable for !TARGET_64BIT only.
+	(strlendi): Enable for TARGET_64BIT only.
+
+2011-07-21  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/48973
+	* expr.c (expand_expr_real_1) <case TRUTH_ANDIF_EXPR>: If
+	the comparison has a single bit signed type, use
+	constm1_rtx instead of const1_rtx for true value.
+
+2011-07-19  Jakub Jelinek  <jakub@redhat.com>
+
+	Backport from mainline
+	2011-07-07  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/49640
+	* gimplify.c (gimplify_compound_lval): For last 2 ARRAY_*REF
+	operands and last COMPONENT_REF operand call gimplify_expr on it
+	if non-NULL.
+
+	2011-07-04  Jakub Jelinek  <jakub@redhat.com>
+
+	PR rtl-optimization/49619
+	* combine.c (combine_simplify_rtx): In PLUS -> IOR simplification
+	pass VOIDmode as op0_mode to recursive call.
+
+	2011-05-27  Jakub Jelinek  <jakub@redhat.com>
+
+	PR c++/49165
+	* c-common.c (c_common_truthvalue_conversion) <case COND_EXPR>: For
+	C++ don't call c_common_truthvalue_conversion on void type arms.
+
+	2011-05-26  Jakub Jelinek  <jakub@redhat.com>
+
+	PR c++/49165
+	* gimplify.c (shortcut_cond_r): Don't special case
+	COND_EXPRs if they have void type on one of their arms.
+
+	2011-05-23  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/48973
+	* expr.c (expand_expr_real_1) <case LT_EXPR>: If do_store_flag
+	failed and the comparison has a single bit signed type, use
+	constm1_rtx instead of const1_rtx for true value.
+	(do_store_flag): If TREE_TYPE (exp) is single bit signed type, disable
+	single bit test optimization, pass -1 instead of 1 as last
+	parameter to emit_store_flag and use constm1_rtx instead of
+	const1_rtx as true value.
+
+	2011-05-18  Jakub Jelinek  <jakub@redhat.com>
+
+	PR tree-optimization/49039
+	* tree-vrp.c (extract_range_from_binary_expr): For
+	MIN_EXPR <~[a, b], ~[c, d]> and MAX_EXPR <~[a, b], ~[c, d]>
+	return ~[MAX_EXPR <a, c>, MIN_EXPR <b, d>].
+
+2011-07-17  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/49746
+	Revert:
+	2010-12-30  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* config/pa/pa.md: Add ",*" condition to 64-bit add/subtract boolean
+	patterns.
+
+2011-07-15  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/49723
+	* config/pa/pa.md (casesi): Use gen_int_mode instead of GEN_INT.
+
+2011-07-04  Richard Guenther  <rguenther@suse.de>
+
+	PR tree-optimization/49615
+	* tree-cfgcleanup.c (split_bbs_on_noreturn_calls): Fix
+	basic-block index check.
+
+2011-06-30  Eric Botcazou  <ebotcazou@adacore.com>
+
+	PR tree-optimization/49572
+	* tree-ssa-dom.c (initialize_hash_element) <GIMPLE_SINGLE_RHS>: Use the
+	type of the RHS instead of that of the LHS for the expression type.
+
+2011-06-28  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* tree-ssa-dom.c (initialize_hash_element): Fix oversight.
+
+2011-06-20  Andrey Belevantsev  <abel@ispras.ru>
+
+	Backport from mainline
+	2010-12-07  Andrey Belevantsev  <abel@ispras.ru>
+	PR target/43603
+	* haifa-sched.c (sched_create_recovery_edges): Update
+	dominator info.
+	* sel-sched-ir.c (maybe_tidy_empty_bb): Update dominator info
+	after deleting an empty block, verify dominators.
+	(sel_remove_bb): Update dominator info after removing a block.
+	(sel_redirect_edge_and_branch_force): Assert that no unreachable
+	blocks will be created. Update dominator info.
+	(sel_redirect_edge_and_branch): Update dominator info when
+	basic blocks do not become unreachable.
+	(sel_remove_loop_preheader): Update dominator info.
+
+	2010-10-14  Andrey Belevantsev  <abel@ispras.ru>
+
+	* sel-sched-ir.c (maybe_tidy_empty_bb): Simplify comment.
+	(tidy_control_flow): Tidy vertical space.
+	(sel_remove_bb): New variable idx.  Use it to remember the basic
+	block index before deleting the block.
+	(sel_remove_empty_bb): Remove dead code, simplify and insert to ...
+	(sel_merge_blocks): ... here.  Add forward declaration.
+	* sel-sched-ir.h (sel_remove_empty_bb): Remove prototype.
+	(sel_merge_blocks): Likewise.
+
+2011-06-17  Hans-Peter Nilsson  <hp@axis.com>
+
+	Backport from mainline
+	2011-06-17  Hans-Peter Nilsson  <hp@axis.com>
+
+	PR rtl-optimization/48542
+	* reload.c (find_equiv_reg): Stop looking when finding a
+	setjmp-type call.
+	* reload1.c (reload_as_needed): Invalidate all reload
+	registers when crossing a setjmp-type call.
+
+2011-06-09  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* config/sparc/sparc.md (return_internal): Adjust 'length' attribute.
+
+2011-06-05  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* config/sparc/sparc.c (output_return): Fix thinko in the output of an
+	EH return when delayed branches are disabled.
+
+2011-06-05  Kaz Kojima  <kkojima@gcc.gnu.org>
+
+	Backport from mainline
+	2011-05-30  Kaz Kojima  <kkojima@gcc.gnu.org>
+
+	PR target/49186
+	* config/sh/sh.c (expand_cbranchdi4): Set msw_skip when the high
+	part of the second operand is 0.
+
+2011-05-29  Richard Sandiford  <rdsandiford@googlemail.com>
+
+	PR target/43700
+	* config/mips/mips.c (mips_cfun_call_saved_reg_p): Handle global
+	registers.
+
+2011-05-25  Uros Bizjak  <ubizjak@gmail.com>
+
+	PR target/49133
+	* config/i386/sse.md (sse2_loadhpd): Remove shufpd alternative.
+
+2011-05-23  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR rtl-optimization/49007
+	Backport from mainline:
+	2009-11-30  Hans-Peter Nilsson  <hp@axis.com>
+
+	PR rtl-optimization/40086
+	* reorg.c (relax_delay_slots): When looking for redundant insn at
+	the branch target, use next_real_insn, not next_active_insn.
+
+2011-05-21  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* config/sparc/sparc.md (setjmp): Handle PIC mode and use the hard
+	frame pointer.
+
+2011-05-21  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* config/sparc/sparc.c (eligible_for_return_delay): Do not return
+	false if there are call-saved registers here...
+	(sparc_can_use_return_insn_p): ...but here instead.
+	(save_or_restore_regs): Fix thinko.
+	(sparc_expand_prologue): Use current_function_is_leaf.
+	* config/sparc/sparc.h (FRAME_POINTER_REQUIRED) : Likewise.
+
+2011-05-14  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR rtl-optimization/48932
+	Backport from mainline:
+	2010-09-15  Eric Botcazou  <ebotcazou@adacore.com>
+
+	PR rtl-optimization/45593
+	* reorg.c (relax_delay_slots): Use emit_copy_of_insn_after to re-emit
+	insns that were in delay slots as stand-alone insns.
+
+2011-05-10  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from mainline
+	2011-05-07  Zdenek Dvorak  <ook@ucw.cz>
+
+	PR tree-optimization/48837
+	* tree-tailcall.c (tree_optimize_tail_calls_1): Do not mark tailcalls
+	when accumulator transformation is performed.
+
+2011-05-05  Jason Merrill  <jason@redhat.com>
+
+	PR c++/40975
+	* tree-inline.c (copy_tree_r): Handle STATEMENT_LIST.
+
+2011-05-05  Julian Brown  <julian@codesourcery.com>
+
+	* config/arm/neon.md (vec_set<mode>_internal): Fix misplaced
+	parenthesis in D-register case.
+
+2011-05-04  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from mainline
+	2011-05-03  Uros Bizjak  <ubizjak@gmail.com>
+		    Jakub Jelinek  <jakub@redhat.com>
+
+	PR target/48774
+	* config/i386/i386.c (ix86_match_ccmode): For CC{A,C,O,S}mode
+	only succeed if req_mode is the same as set_mode.
+
+	2011-04-30  Jakub Jelinek  <jakub@redhat.com>
+
+	PR tree-optimization/48809
+	* tree-switch-conversion.c (build_arrays): Compute tidx in unsigned
+	type.
+	(gen_inbound_check): Don't compute index_expr - range_min in utype
+	again, instead reuse SSA_NAME initialized in build_arrays.
+	Remove two useless gsi_for_stmt calls.
+
+	2011-04-28  Jakub Jelinek  <jakub@redhat.com>
+
+	PR middle-end/48597
+	* final.c (final_scan_insn): Call dwarf2out_frame_debug even for
+	inline asm.
+
+2011-04-24  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/48288
+	* config/pa/predicates.md (ior_operand): Delete predicate.
+	(cint_ior_operand, reg_or_cint_ior_operand): New predicates.
+	* config/pa/pa.md (iordi3): Use reg_or_cint_ior_operand predicate in
+	expander.  Use cint_ior_operand in unnamed insn.
+	(iorsi3): Likewise.
+	* config/pa/pa-protos.h (ior_operand): Delete declarations.
+
+2011-04-19  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* config/pa/pa.h (REGISTER_MOVE_COST): Increase to 18 cost of
+	move from floating point to shift amount register.
+
+	Backport from mainline:
+	2011-04-08  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/48366
+	* config/pa/pa.c (emit_move_sequence): Remove secondary reload
+	support for floating point to shift amount amount register copies.
+	(pa_secondary_reload): Return GENERAL_REGS for floating point/shift
+	amount register copies.
+	* config/pa/pa32-regs.h (HARD_REGNO_MODE_OK): For shift amount
+	register, return false if mode isn't a scalar integer mode.
+	* config/pa/pa64-regs.h (HARD_REGNO_MODE_OK): Likewise.
+
+2011-04-16  Jakub Jelinek  <jakub@redhat.com>
+
+	Backported from 4.6 branch
+	2011-04-15  Jakub Jelinek  <jakub@redhat.com>
+
+	PR target/48605
+	* config/i386/sse.md (avx_insertps, sse4_1_insertps): If operands[2]
+	is a MEM, offset it as needed based on top 2 bits in operands[3],
+	change MEM mode to SFmode and mask those 2 bits away from operands[3].
+
+2011-04-16  Jakub Jelinek  <jakub@redhat.com>
+
+	* BASE-VER: Set to 4.4.7.
+	* DEV-PHASE: Set to prerelease.
+
 2011-04-16  Release Manager
 
 	* GCC 4.4.6 released.

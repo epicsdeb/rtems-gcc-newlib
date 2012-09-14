@@ -1070,6 +1070,9 @@ extern int may_call_alloca;
    && (NEW_HP_ASSEMBLER						\
        || TARGET_GAS						\
        || GET_CODE (X) != LABEL_REF)				\
+   && (!PA_SYMBOL_REF_TLS_P (X)					\
+       || (SYMBOL_REF_TLS_MODEL (X) != TLS_MODEL_GLOBAL_DYNAMIC		\
+	   && SYMBOL_REF_TLS_MODEL (X) != TLS_MODEL_LOCAL_DYNAMIC))	\
    && (!TARGET_64BIT						\
        || GET_CODE (X) != CONST_DOUBLE)				\
    && (!TARGET_64BIT						\
@@ -1564,6 +1567,7 @@ do { 									\
    Other copies are reasonably cheap.  */
 #define REGISTER_MOVE_COST(MODE, CLASS1, CLASS2) \
  (CLASS1 == SHIFT_REGS ? 0x100					\
+  : CLASS2 == SHIFT_REGS && FP_REG_CLASS_P (CLASS1) ? 18	\
   : FP_REG_CLASS_P (CLASS1) && ! FP_REG_CLASS_P (CLASS2) ? 16	\
   : FP_REG_CLASS_P (CLASS2) && ! FP_REG_CLASS_P (CLASS1) ? 16	\
   : 2)

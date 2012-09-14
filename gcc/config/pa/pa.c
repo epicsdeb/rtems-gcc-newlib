@@ -1618,15 +1618,12 @@ emit_move_sequence (rtx *operands, enum machine_mode mode, rtx scratch_reg)
       return 1;
     }
   /* Handle secondary reloads for SAR.  These occur when trying to load
-     the SAR from memory, FP register, or with a constant.  */
+     the SAR from memory or a constant.  */
   else if (scratch_reg
 	   && GET_CODE (operand0) == REG
 	   && REGNO (operand0) < FIRST_PSEUDO_REGISTER
 	   && REGNO_REG_CLASS (REGNO (operand0)) == SHIFT_REGS
-	   && (GET_CODE (operand1) == MEM
-	       || GET_CODE (operand1) == CONST_INT
-	       || (GET_CODE (operand1) == REG
-		   && FP_REG_CLASS_P (REGNO_REG_CLASS (REGNO (operand1))))))
+	   && (GET_CODE (operand1) == MEM || GET_CODE (operand1) == CONST_INT))
     {
       /* D might not fit in 14 bits either; for such cases load D into
 	 scratch reg.  */
@@ -1672,6 +1669,11 @@ emit_move_sequence (rtx *operands, enum machine_mode mode, rtx scratch_reg)
   /* Handle the most common case: storing into a register.  */
   else if (register_operand (operand0, mode))
     {
+      /* Legitimize TLS symbol references.  This happens for references
+	 that aren't a legitimate constant.  */
+      if (PA_SYMBOL_REF_TLS_P (operand1))
+	operand1 = legitimize_tls_address (operand1);
+
       if (register_operand (operand1, mode)
 	  || (GET_CODE (operand1) == CONST_INT
 	      && cint_ok_for_move (INTVAL (operand1)))
@@ -5695,6 +5697,10 @@ output_arg_descriptor (rtx call_insn)
   fputc ('\n', asm_out_file);
 }
 
+/* Inform reload about cases where moving X with a mode MODE to a register in
+   RCLASS requires an extra scratch or immediate register.  Return the class
+   needed for the immediate register.  */
+
 static enum reg_class
 pa_secondary_reload (bool in_p, rtx x, enum reg_class rclass,
 		     enum machine_mode mode, secondary_reload_info *sri)
@@ -5794,20 +5800,27 @@ pa_secondary_reload (bool in_p, rtx x, enum reg_class rclass,
       return NO_REGS;
     }
 
-  /* We need a secondary register (GPR) for copies between the SAR
-     and anything other than a general register.  */
-  if (rclass == SHIFT_REGS && (regno <= 0 || regno >= 32))
+  /* A SAR<->FP register copy requires an intermediate general register
+     and secondary memory.  We need a secondary reload with a general
+     scratch register for spills.  */
+  if (rclass == SHIFT_REGS)
     {
-      sri->icode = in_p ? reload_in_optab[mode] : reload_out_optab[mode];
-      return NO_REGS;
+      /* Handle spill.  */
+      if (regno >= FIRST_PSEUDO_REGISTER || regno < 0)
+	{
+	  sri->icode = in_p ? reload_in_optab[mode] : reload_out_optab[mode];
+	  return NO_REGS;
+	}
+
+      /* Handle FP copy.  */
+      if (FP_REG_CLASS_P (REGNO_REG_CLASS (regno)))
+	return GENERAL_REGS;
     }
 
-  /* A SAR<->FP register copy requires a secondary register (GPR) as
-     well as secondary memory.  */
   if (regno >= 0 && regno < FIRST_PSEUDO_REGISTER
-      && (REGNO_REG_CLASS (regno) == SHIFT_REGS
-      && FP_REG_CLASS_P (rclass)))
-    sri->icode = in_p ? reload_in_optab[mode] : reload_out_optab[mode];
+      && REGNO_REG_CLASS (regno) == SHIFT_REGS
+      && FP_REG_CLASS_P (rclass))
+    return GENERAL_REGS;
 
   return NO_REGS;
 }

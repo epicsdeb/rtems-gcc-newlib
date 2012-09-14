@@ -1,3 +1,58 @@
+2012-03-13  Release Manager
+
+	* GCC 4.4.7 released.
+
+2012-01-19  Kai Tietz  <ktietz@redhat.com>
+
+	PR c++/51344
+	* decl2.c (save_template_attributes): Use merge_attributes
+	instead of chaining up via TREE_CHAIN.
+
+2011-10-19  Jason Merrill  <jason@redhat.com>
+
+	PR c++/50793
+	* tree.c (bot_manip): Propagate AGGR_INIT_ZERO_FIRST.
+
+2011-10-13  Jason Merrill  <jason@redhat.com>
+
+	PR c++/50618
+	* init.c (expand_aggr_init_1): Don't zero-initialize virtual
+	bases of a base subobject.
+
+	Backported from 4.6 branch
+	2011-03-11  Jakub Jelinek  <jakub@redhat.com>
+
+	PR c++/48035
+	* init.c (build_zero_init_1): Extracted from build_zero_init.
+	Add FIELD_SIZE argument, if non-NULL and field bit_position
+	as not smaller than that, don't add that field's initializer.
+	Pass DECL_SIZE as last argument to build_zero_init_1
+	for DECL_FIELD_IS_BASE fields.
+	(build_zero_init): Use build_zero_init_1.
+
+2011-05-20  Jason Merrill  <jason@redhat.com>
+
+	PR c++/48873
+	* tree.c (stabilize_expr): Don't make gratuitous copies of classes.
+
+2011-05-09  Jason Merrill  <jason@redhat.com>
+
+	PR c++/48936
+	* decl2.c (mark_used): Instantiate constant variables even
+	in unevaluated context.
+
+2011-04-26  Jason Merrill  <jason@redhat.com>
+
+	PR c++/42687
+	* parser.c (cp_parser_primary_expression): Set *idk to
+	CP_ID_KIND_NONE for a parenthesized identifier.
+
+2011-04-20  Jason Merrill  <jason@redhat.com>
+
+	PR c++/48594
+	* decl2.c (build_offset_ref_call_from_tree): Fix calling a functor
+	or pointer to (non-member) function.
+
 2011-04-16  Release Manager
 
 	* GCC 4.4.6 released.
