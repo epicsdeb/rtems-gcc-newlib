@@ -1,3 +1,14 @@
+gcc-rtems4.10 (4.4.7-1) unstable; urgency=low
+
+  * New GCC version
+  * newlib remains at 1.18.0
+  * RTEMS patches:
+      gcc-core-4.4.7-rtems4.10-20120314.diff
+      gcc-g++-4.4.7-rtems4.10-20120314.diff
+      newlib-1.18.0-rtems4.10-20110518.diff
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Fri, 14 Sep 2012 10:19:28 -0400
+
 gcc-rtems4.10 (4.4.6-1) unstable; urgency=low
 
   * New GCC version
