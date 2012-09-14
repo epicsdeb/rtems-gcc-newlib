@@ -1,6 +1,5 @@
-/* Definitions for rtems targeting a M32C using ELF.
-   Copyright (C) 2008, Free Software Foundation, Inc.
-   Contributed by Joel Sherrill (joel@OARcorp.com).
+/* Definitions for rtems targeting a lm32 using ELF.
+   Copyright (C) 2009, Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -29,9 +28,5 @@ along with GCC; see the file COPYING3.  If not see
     }						\
   while (0)
 
-/* Use the defaults */
+/* Use the default */
 #undef LINK_GCC_C_SEQUENCE_SPEC
-
-#undef WCHAR_TYPE
-
-#undef WCHAR_TYPE_SIZE

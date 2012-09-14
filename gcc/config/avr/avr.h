@@ -811,12 +811,15 @@ mmcu=*:-mmcu=%*}"
                                mmcu=at90can64*|\
                                mmcu=at90usb64*:--pmem-wrap-around=64k}}}\
 %{!mmcu*: -m avr2}\
-%{mmcu=at90s1200|\
+%{mmcu=avr1|\
+  mmcu=at90s1200|\
   mmcu=attiny11|\
   mmcu=attiny12|\
   mmcu=attiny15|\
   mmcu=attiny28: -m avr1}\
-%{mmcu=attiny22|\
+%{mmcu=avr2|\
+  mmcu=avr25|\
+  mmcu=attiny22|\
   mmcu=attiny26|\
   mmcu=at90s2*|\
   mmcu=at90s4*|\
@@ -831,14 +834,18 @@ mmcu=*:-mmcu=%*}"
   mmcu=attiny261|\
   mmcu=attiny4*|\
   mmcu=attiny8*: -m avr2}\
-%{mmcu=atmega103|\
+%{mmcu=avr3|\
+  mmcu=avr31|\
+  mmcu=avr35|\
+  mmcu=atmega103|\
   mmcu=at43*|\
   mmcu=at76*|\
   mmcu=at90usb82|\
   mmcu=at90usb162|\
   mmcu=attiny16*|\
   mmcu=attiny32*: -m avr3}\
-%{mmcu=atmega8*|\
+%{mmcu=avr4|\
+  mmcu=atmega8*|\
   mmcu=atmega4*|\
   mmcu=at90pwm1|\
   mmcu=at90pwm2|\
@@ -846,7 +853,9 @@ mmcu=*:-mmcu=%*}"
   mmcu=at90pwm3|\
   mmcu=at90pwm3b|\
   mmcu=at90pwm81: -m avr4}\
-%{mmcu=atmega16*|\
+%{mmcu=avr5|\
+  mmcu=avr51|\
+  mmcu=atmega16*|\
   mmcu=atmega32*|\
   mmcu=atmega406|\
   mmcu=atmega64*|\
@@ -860,7 +869,8 @@ mmcu=*:-mmcu=%*}"
   mmcu=at94k|\
   mmcu=m3000*|\
   mmcu=m3001*: -m avr5}\
-%{mmcu=atmega256*:-m avr6}\
+%{mmcu=avr6|\
+  mmcu=atmega256*:-m avr6}\
 %{mmcu=atmega324*|\
   mmcu=atmega325*|\
   mmcu=atmega328p|\

@@ -29,5 +29,9 @@ along with GCC; see the file COPYING3.  If not see
     }						\
   while (0)
 
-/* Use the default */
+/* Use the defaults */
 #undef LINK_GCC_C_SEQUENCE_SPEC
+
+#undef WCHAR_TYPE
+
+#undef WCHAR_TYPE_SIZE
