@@ -1,3 +1,10 @@
+gcc-rtems4.9 (4.3.2-4) unstable; urgency=low
+
+  * Mis-applied newlib patch 20090324
+    Remove empty files
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Wed, 15 May 2013 18:39:11 -0400
+
 gcc-rtems4.9 (4.3.2-3) unstable; urgency=low
 
   * Apply updated RTEMS patches
