@@ -31,14 +31,6 @@
     } while (0)
 
 /*
- * The default in gcc now is soft-float, but gcc misses it to 
- * pass it to the assembler.
- */
-#undef SUBTARGET_EXTRA_ASM_SPEC
-#define SUBTARGET_EXTRA_ASM_SPEC "\
-  %{!mhard-float: %{!msoft-float:-mfpu=softfpa}}"
-
-/*
  *  The default includes --start-group and --end-group which conflicts
  *  with how this used to be defined.
  */

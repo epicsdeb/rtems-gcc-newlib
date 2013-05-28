@@ -1,3 +1,13 @@
+gcc-rtems4.9 (4.3.2-5) unstable; urgency=low
+
+  * solve problem with gcc and fprintf on ARM
+    see: http://www.rtems.com/pipermail/rtems-users/2009-August/005847.html
+  * change config parms of gcc for ARM to use --with-fpu=vfp --with-float=soft as default
+  * add config parm of gcc: --disable-libstdcxx-pch
+       prevents the installation of precompiled include files, which are not needed
+
+ -- Joachim Rahn <Joachim.Rahn@helmholtz-berlin.de>  Tue, 28 May 2013 15:43:34 +0200
+
 gcc-rtems4.9 (4.3.2-4) unstable; urgency=low
 
   * Mis-applied newlib patch 20090324
