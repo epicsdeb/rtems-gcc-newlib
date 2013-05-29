@@ -42,6 +42,8 @@ endif
 	cd build-i386 && ../configure $(call CONFIG,i386)
 	install -d build-powerpc
 	cd build-powerpc && ../configure $(call CONFIG,powerpc)
+	install -d build-m68k
+	cd build-m68k && ../configure $(call CONFIG,m68k)
 
 
 build: build-stamp
@@ -52,6 +54,7 @@ build-stamp:  config.status
 	$(MAKE) -C build-arm $(BMAKEFLAGS)
 	$(MAKE) -C build-i386 $(BMAKEFLAGS)
 	$(MAKE) -C build-powerpc $(BMAKEFLAGS)
+	$(MAKE) -C build-m68k $(BMAKEFLAGS)
 
 	touch $@
 
@@ -60,7 +63,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp 
 
-	rm -rf build-i386 build-powerpc build-arm
+	rm -rf build-i386 build-powerpc build-arm build-m68k
 	rm -f config.sub config.guess
 
 	dh_clean 
@@ -93,6 +96,13 @@ install: build
 	rm -f $(call tprefix,powerpc)/lib/*.a
 	rm -rf $(call tprefix,powerpc)/share/info
 	rm -rf $(call tprefix,powerpc)/share/man/man7
+
+	$(MAKE) -C build-m68k prefix=$(call tprefix,m68k) install
+
+	rmdir $(call tprefix,m68k)/include
+	rm -f $(call tprefix,m68k)/lib/*.a
+	rm -rf $(call tprefix,m68k)/share/info
+	rm -rf $(call tprefix,m68k)/share/man/man7
 
 
 # Build architecture-independent files here.
