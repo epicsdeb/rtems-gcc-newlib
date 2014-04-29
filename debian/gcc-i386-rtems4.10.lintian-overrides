@@ -1,3 +1,4 @@
 gcc-i386-rtems4.10: binary-from-other-architecture
 gcc-i386-rtems4.10: unstripped-binary-or-object
 gcc-i386-rtems4.10: file-in-unusual-dir
+gcc-i386-rtems4.10: non-empty-dependency_libs-in-la-file
