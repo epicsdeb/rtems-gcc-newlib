@@ -109,6 +109,7 @@ binary-arch: build install
 	dh_installman
 	dh_link
 	#dh_strip # messes up libgcc.a and probably others
+	dh_lintian
 	dh_compress
 	dh_fixperms
 	dh_installdeb

@@ -1,3 +1,4 @@
 gcc-arm-rtems4.10: binary-from-other-architecture
 gcc-arm-rtems4.10: unstripped-binary-or-object
 gcc-arm-rtems4.10: file-in-unusual-dir
+gcc-arm-rtems4.10: non-empty-dependency_libs-in-la-file
