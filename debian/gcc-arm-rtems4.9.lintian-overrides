@@ -1,0 +1,3 @@
+gcc-arm-rtems4.9: binary-from-other-architecture
+gcc-arm-rtems4.9: unstripped-binary-or-object
+gcc-arm-rtems4.9: non-empty-dependency_libs-in-la-file
