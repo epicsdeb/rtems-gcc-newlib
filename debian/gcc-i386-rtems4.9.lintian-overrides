@@ -1,0 +1,3 @@
+gcc-i386-rtems4.9: binary-from-other-architecture
+gcc-i386-rtems4.9: unstripped-binary-or-object
+gcc-i386-rtems4.9: non-empty-dependency_libs-in-la-file
