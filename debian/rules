@@ -1,0 +1,109 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+#eg. DEB_BUILD_OPTIONS=parallel=8
+
+ifeq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+CFLAGS:=$(filter-out -g,$(CFLAGS))
+endif
+
+RTEMS_VER =4.11
+
+ifneq (,$(filter target=%,$(DEB_BUILD_OPTIONS)))
+TARGETS = $(patsubst target=%,%,$(filter target=%,$(DEB_BUILD_OPTIONS)))
+else
+TARGETS = i386 arm powerpc m68k
+endif
+
+prefix=/usr
+exec_prefix=$(prefix)
+bindir=$(exec_prefix)/bin
+datarootdir=$(prefix)/share
+datadir=$(datarootdir)
+mandir=$(datarootdir)/man
+infodir=$(datarootdir)/info
+localedir=$(datarootdir)/locale
+libexecdir=$(exec_prefix)/libexec
+libdir=$(exec_prefix)/lib
+
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+override_dh_auto_clean:
+	rm -rf build-*
+	rm -f gcc/newlib
+	rm -f gcc/config.sub gcc/config.guess
+	rm -f debian/gcc-*-rtems$(RTEMS_VER).install
+	rm -f debian/gcc-*-rtems$(RTEMS_VER).lintian-overrides
+
+override_dh_auto_test:
+
+override_dh_auto_configure: gcc/config.sub gcc/config.guess $(TARGETS:%=x_configure_%)
+
+gcc/config.%: /usr/share/misc/config.%
+	cp -f $< $@
+
+gcc/newlib:
+	ln -s ../newlib/newlib $@
+
+x_configure_%: gcc/newlib
+	dh_auto_configure -D$$PWD/gcc -B$$PWD/build-$* -- \
+ --target $*-rtems$(RTEMS_VER) --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE) \
+ --prefix=$(prefix) --bindir=$(bindir) --exec_prefix=$(exec_prefix) --datadir=$(datadir) \
+ --libexecdir=$(libexecdir) --mandir=$(mandir) --infodir=$(infodir) \
+ --disable-libstdcxx-pch --with-gnu-as --with-gnu-ld \
+ --disable-nls --disable-werror --with-system-zlib --without-included-gettext \
+ --enable-version-specific-runtime-libs --enable-threads \
+ --disable-lto --disable-plugin --enable-newlib-io-c99-formats \
+ --enable-newlib-iconv --enable-languages="c,c++" \
+ CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
+
+override_dh_auto_build: # no-op see below
+
+override_dh_auto_install: $(TARGETS:%=x_install_%)
+	rm -rf debian/tmp$(infodir)
+	rm -f  debian/tmp/$(libdir)/libiberty.a
+	rm -rf debian/tmp/$(mandir)/man7
+	rm -rf debian/tmp/$(datarootdir)/iconv_data
+	# pretty printer for use with GDB, don't know what to do with this
+	rm -rf debian/tmp/$(datarootdir)/gcc-*/python
+
+x_install_%:
+	# abuse the install action to do the build as well
+	# this means the build host only needs space
+	# to build a single target.
+	dh_auto_build -D$$PWD/gcc -B$$PWD/build-$*
+	dh_auto_install -D$$PWD/gcc -B$$PWD/build-$*
+	dh_auto_clean -D$$PWD/gcc -B$$PWD/build-$*
+
+override_dh_install: $(TARGETS:%=debian/gcc-%-rtems$(RTEMS_VER).install)
+override_dh_install: $(TARGETS:%=debian/gcc-%-rtems$(RTEMS_VER).lintian-overrides)
+override_dh_install:
+	dh_install --fail-missing
+
+debian/gcc-%-rtems$(RTEMS_VER).install: debian/gcc-rtems.install.in
+	sed -e 's|@prefix@|$(prefix)|g' -e 's|@version@|$(RTEMS_VER)|g' -e 's|@arch@|$*|g' $< > $@
+
+debian/gcc-%-rtems$(RTEMS_VER).lintian-overrides: debian/gcc-rtems.lintian-overrides.in
+	sed -e 's|@prefix@|$(prefix)|g' -e 's|@version@|$(RTEMS_VER)|g' -e 's|@arch@|$*|g' $< > $@
+
+%:
+	dh --parallel $@
+
+override_dh_strip:
+	dh_strip $(TARGETS:%=-X$(prefix)/lib/gcc/%-rtems$(RTEMS_VER)/) $(TARGETS:%=-X$(prefix)/%-rtems$(RTEMS_VER)/lib)
+
+# this rule is *not* part of a normal build.
+# invoke it manually ("make -f debian/rules debian/control")
+# to re-generate the control file after changing the TARGETS list
+debian/control: debian/control.prefix.in debian/control.arch.in debian/rules
+	sed -e 's|@version@|$(RTEMS_VER)|g' debian/control.prefix.in > $@
+	for arch in $(TARGETS); do echo "    binutils-$$arch-rtems$(RTEMS_VER)," >> $@; done
+	echo "" >> $@
+	for arch in $(TARGETS); do sed -e 's|@version@|$(RTEMS_VER)|g' -e "s|@arch@|$$arch|g" debian/control.arch.in >> $@; done

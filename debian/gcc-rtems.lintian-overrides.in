@@ -1,0 +1,4 @@
+gcc-@arch@-rtems@version@: binary-from-other-architecture
+gcc-@arch@-rtems@version@: unstripped-binary-or-object
+gcc-@arch@-rtems@version@: file-in-unusual-dir
+gcc-@arch@-rtems@version@: non-empty-dependency_libs-in-la-file

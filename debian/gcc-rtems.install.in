@@ -1,0 +1,5 @@
+@prefix@/bin/@arch@-rtems@version@-*
+@prefix@/libexec/gcc/@arch@-rtems@version@
+@prefix@/share/man/man1/@arch@-rtems@version@-*
+@prefix@/lib/gcc/@arch@-rtems@version@
+@prefix@/@arch@-rtems@version@
