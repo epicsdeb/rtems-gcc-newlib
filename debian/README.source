@@ -1,0 +1,25 @@
+To build for a different set of target architectures.
+
+1) Edit debian/rules and change the TARGETS variable
+
+2) run "fakeroot debian/rules debian/control" which regenerates the control file.
+
+3) Add a new entry to debian/changelog and increment the version number
+
+4.a) To feed pbuilder run "git-buildpackage --git-cleaner=true --git-ignore-new -S -sa"
+
+4.b) For a local build "git-buildpackage --git-cleaner=true --git-ignore-new -b -us -uc"
+
+
+This package uses multiple source tars, which isn't supported by pristine-tar.
+
+ftp://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2
+ftp://mirrors.kernel.org/sourceware/newlib/newlib-2.1.0.tar.gz
+
+and one patch file.
+
+http://git.rtems.org/rtems-tools/plain/tools/4.11/newlib/newlib-sys-signal-20130532.diff
+
+This configuration is based on a reading of:
+
+http://git.rtems.org/rtems-source-builder/tree/rtems/config/tools/rtems-gcc-4.8.2-newlib-2.1.0-1.cfg

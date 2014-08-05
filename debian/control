@@ -1,0 +1,56 @@
+Source: gcc-rtems4.11
+Section: devel
+Priority: extra
+Maintainer: Michael Davidsaver <mdavidsaver@bnl.gov>
+Standards-Version: 3.8.0
+Homepage: http://gcc.gnu.org/
+Vcs-Browser: https://github.com/epicsdeb/rtems-gcc-newlib/tree/master4.10
+Vcs-Git: https://github.com/epicsdeb/rtems-gcc-newlib.git
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev,
+               libgmp-dev, libmpfr-dev, libmpc-dev,
+               zlib1g-dev, texinfo, install-info,
+    binutils-i386-rtems4.11,
+    binutils-arm-rtems4.11,
+    binutils-powerpc-rtems4.11,
+    binutils-m68k-rtems4.11,
+
+Package: gcc-i386-rtems4.11
+Architecture: any
+Depends: binutils-i386-rtems4.11, ${shlibs:Depends}, ${misc:Depends}
+Description: Cross compiler for RTEMS on i386
+ The GNU Compiler Collection includes front ends for C, C++, Objective-C,
+ Fortran, Java, and Ada, as well as libraries for these languages
+ (libstdc++, libgcj,...).
+ This package contains a cross-compiler intended for the RTEMS realtime
+ operating system.  It includes the cross compiler and libc (newlib).
+
+Package: gcc-arm-rtems4.11
+Architecture: any
+Depends: binutils-arm-rtems4.11, ${shlibs:Depends}, ${misc:Depends}
+Description: Cross compiler for RTEMS on arm
+ The GNU Compiler Collection includes front ends for C, C++, Objective-C,
+ Fortran, Java, and Ada, as well as libraries for these languages
+ (libstdc++, libgcj,...).
+ This package contains a cross-compiler intended for the RTEMS realtime
+ operating system.  It includes the cross compiler and libc (newlib).
+
+Package: gcc-powerpc-rtems4.11
+Architecture: any
+Depends: binutils-powerpc-rtems4.11, ${shlibs:Depends}, ${misc:Depends}
+Description: Cross compiler for RTEMS on powerpc
+ The GNU Compiler Collection includes front ends for C, C++, Objective-C,
+ Fortran, Java, and Ada, as well as libraries for these languages
+ (libstdc++, libgcj,...).
+ This package contains a cross-compiler intended for the RTEMS realtime
+ operating system.  It includes the cross compiler and libc (newlib).
+
+Package: gcc-m68k-rtems4.11
+Architecture: any
+Depends: binutils-m68k-rtems4.11, ${shlibs:Depends}, ${misc:Depends}
+Description: Cross compiler for RTEMS on m68k
+ The GNU Compiler Collection includes front ends for C, C++, Objective-C,
+ Fortran, Java, and Ada, as well as libraries for these languages
+ (libstdc++, libgcj,...).
+ This package contains a cross-compiler intended for the RTEMS realtime
+ operating system.  It includes the cross compiler and libc (newlib).
+
