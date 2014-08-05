@@ -1,5 +1,0 @@
-This tar consists of the following all packed together
-
-gcc-core-4.4.6.tar.bz2
-gcc-g++-4.4.6.tar.bz2
-newlib-1.18.0.tar.gz (just the newlib sub-directory)
