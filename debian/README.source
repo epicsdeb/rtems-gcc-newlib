@@ -1,0 +1,23 @@
+To build for a different set of target architectures.
+
+1) Edit debian/rules and change the TARGETS variable
+
+2) run "fakeroot debian/rules debian/control" which regenerates the control file.
+
+3) Add a new entry to debian/changelog and increment the version number
+
+4.a) To feed pbuilder run "git-buildpackage --git-cleaner=true --git-ignore-new -S -sa"
+
+4.b) For a local build "git-buildpackage --git-cleaner=true --git-ignore-new -b -us -uc"
+
+
+This package uses multiple source tars, which isn't supported by pristine-tar.
+Fetch them from http://www.rtems.org/ftp/pub/rtems/SOURCES/4.11/ and rename
+
+eg.
+
+gcc-4.8.2.tar.xz -> gcc-rtems4.11_4.8.2.orig-gcc.tar.xz
+newlib-1.20.0.tar.gz -> gcc-rtems4.11_4.8.2.orig-newlib.tar.gz
+
+The file gcc-rtems4.11_4.8.2.orig.tar.gz must exist, but doesn't contain
+anything useful.
