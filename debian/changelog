@@ -1,3 +1,10 @@
+gcc-rtems4.11 (4.8.2+2.1.0-1) unstable; urgency=low
+
+  * New version
+  * Toolchain for pre-release RTEMS 4.11
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Fri, 08 Aug 2014 10:58:28 -0400
+
 gcc-rtems4.11 (4.8.2-1) unstable; urgency=low
 
   * New version
