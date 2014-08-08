@@ -1,0 +1,39 @@
+From: Michael Davidsaver <mdavidsaver@bnl.gov>
+Date: Fri, 8 Aug 2014 10:35:55 -0400
+Subject: newlib-sys-signal-20130532.diff
+
+---
+ newlib/newlib/libc/include/sys/signal.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/newlib/newlib/libc/include/sys/signal.h b/newlib/newlib/libc/include/sys/signal.h
+index 3d6ba08..35e9ec6 100644
+--- a/newlib/newlib/libc/include/sys/signal.h
++++ b/newlib/newlib/libc/include/sys/signal.h
+@@ -104,6 +104,15 @@ struct sigaction {
+ #define sa_sigaction  _signal_handlers._sigaction
+ #endif
+ 
++/*
++ * Structure used in sigaltstack call.
++ */
++typedef struct sigalstack {
++  void     *ss_sp;    /* Stack base or pointer.  */
++  size_t    ss_size;  /* Stack size.  */
++  int       ss_flags; /* Flags.  */
++} stack_t;
++
+ #elif defined(__CYGWIN__)
+ #include <cygwin/signal.h>
+ #else
+@@ -161,6 +170,10 @@ int _EXFUN(sigpending, (sigset_t *));
+ int _EXFUN(sigsuspend, (const sigset_t *));
+ int _EXFUN(sigpause, (int));
+ 
++#if defined(__rtems__)
++int _EXFUN(sigaltstack, (const stack_t *, stack_t *));
++#endif
++
+ #if defined(_POSIX_THREADS)
+ #ifdef __CYGWIN__
+ #  ifndef _CYGWIN_TYPES_H
