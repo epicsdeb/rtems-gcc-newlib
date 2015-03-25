@@ -4262,7 +4262,7 @@ most Symbian OS code uses @code{__declspec}.)
 Two attributes are currently defined for i386 configurations:
 @code{ms_struct} and @code{gcc_struct}
 
-@table code
+@table @code
 
 @item ms_struct
 @itemx gcc_struct
