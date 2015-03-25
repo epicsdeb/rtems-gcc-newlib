@@ -1,4 +1,4 @@
-@c Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008 Free Software Foundation,
+@c Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008, 2010, 2012, Free Software Foundation,
 @c Inc.
 @c This is part of the GCC manual.
 @c For copying conditions, see the file gcc.texi.
@@ -576,7 +576,7 @@ standard rule in @file{gcc/Makefile.in} to the variable
 @code{lang_checks}.
 
 @table @code
-@itemx all.cross
+@item all.cross
 @itemx start.encap
 @itemx rest.encap
 FIXME: exactly what goes in each of these targets?

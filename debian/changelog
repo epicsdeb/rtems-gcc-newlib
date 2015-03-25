@@ -1,4 +1,16 @@
-gcc-rtems4.9 (4.3.2-5) unstable; urgency=low
+gcc-rtems4.9 (4.3.2-6) unstable; urgency=low
+
+  * Fixed compilation error for jessie - in doc all itemx should be preceeded with item
+
+ -- Leon Flaks <flaks@bnl.gov>  Wed, 25 Mar 2015 09:59:00 -0400
+
+ggcc-rtems4.9 (4.3.2-5+zjessie+1) jessie; urgency=low
+
+  * Re-build for jessie
+
+ -- Leon Flaks <flaks@bnl.gov>  Mon, 23 Mar 2015 14:05:00 -0400
+
+ggcc-rtems4.9 (4.3.2-5) unstable; urgency=low
 
   * solve problem with gcc and fprintf on ARM
     see: http://www.rtems.com/pipermail/rtems-users/2009-August/005847.html
