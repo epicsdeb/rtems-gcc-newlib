@@ -1,4 +1,10 @@
-gcc-rtems4.9 (4.3.2-6) unstable; urgency=low
+gcc-rtems4.9 (4.3.2-7) unstable; urgency=low
+
+  * More fixing gcc/doc in extend.texi (Missing @table code in 2 places)
+
+ -- Leon Flaks <flaks@bnl.gov>  Wed, 25 Mar 2015 13:25:00 -0400
+
+ggcc-rtems4.9 (4.3.2-6) unstable; urgency=low
 
   * Fixed compilation error for jessie - in doc all itemx should be preceeded with item
 
