@@ -4527,6 +4527,8 @@ Two attributes are currently defined for i386 configurations:
 
 @table @code
 
+@table code
+
 @item ms_struct
 @itemx gcc_struct
 @cindex @code{ms_struct}
