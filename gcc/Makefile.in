@@ -3808,12 +3808,14 @@ stmp-install-fixproto: fixproto
 #
 # Remake the info files.
 
-doc: $(BUILD_INFO) $(GENERATED_MANPAGES) gccbug
+#doc: $(BUILD_INFO) $(GENERATED_MANPAGES) gccbug
+doc:
 
 INFOFILES = doc/cpp.info doc/gcc.info doc/gccint.info \
             doc/gccinstall.info doc/cppinternals.info
 
-info: $(INFOFILES) lang.info @GENINSRC@ srcinfo lang.srcinfo
+#info: $(INFOFILES) lang.info @GENINSRC@ srcinfo lang.srcinfo
+info:
 
 srcinfo: $(INFOFILES)
 	-cp -p $^ $(srcdir)/doc
@@ -3894,8 +3896,9 @@ $(build_htmldir)/gcc/index.html: $(TEXI_GCC_FILES)
 $(build_htmldir)/gccint/index.html: $(TEXI_GCCINT_FILES)
 $(build_htmldir)/cppinternals/index.html: $(TEXI_CPPINT_FILES)
 
-dvi:: doc/gcc.dvi doc/gccint.dvi doc/gccinstall.dvi doc/cpp.dvi \
-      doc/cppinternals.dvi lang.dvi
+#dvi:: doc/gcc.dvi doc/gccint.dvi doc/gccinstall.dvi doc/cpp.dvi \
+#      doc/cppinternals.dvi lang.dvi
+dvi::
 
 doc/%.dvi: %.texi
 	$(TEXI2DVI) -I . -I $(abs_docdir) -I $(abs_docdir)/include -o $@ $<
@@ -3907,7 +3910,8 @@ doc/gccinstall.dvi: $(TEXI_GCCINSTALL_FILES)
 PDFFILES = doc/gcc.pdf doc/gccint.pdf doc/gccinstall.pdf doc/cpp.pdf \
            doc/cppinternals.pdf
 
-pdf:: $(PDFFILES) lang.pdf
+#pdf:: $(PDFFILES) lang.pdf
+pdf::
 
 doc/%.pdf: %.texi
 	$(TEXI2PDF) -I . -I $(abs_docdir) -I $(abs_docdir)/include -o $@ $<
@@ -3929,7 +3933,8 @@ HTMLS_BUILD=$(build_htmldir)/cpp/index.html $(build_htmldir)/gcc/index.html \
        $(build_htmldir)/gccinstall/index.html $(build_htmldir)/gccint/index.html \
        $(build_htmldir)/cppinternals/index.html lang.html
 
-html:: $(HTMLS_BUILD)
+#html:: $(HTMLS_BUILD)
+html::
 
 $(build_htmldir)/%/index.html: %.texi
 	$(mkinstalldirs) $(@D)
@@ -3948,7 +3953,8 @@ MANFILES = doc/gcov.1 doc/cpp.1 doc/gcc.1 doc/gfdl.7 doc/gpl.7 doc/fsf-funding.7
 
 generated-manpages: man
 
-man: $(MANFILES) lang.man @GENINSRC@ srcman lang.srcman
+#man: $(MANFILES) lang.man @GENINSRC@ srcman lang.srcman
+man:
 
 srcman: $(MANFILES)
 	-cp -p $^ $(srcdir)/doc
@@ -4099,7 +4105,7 @@ maintainer-clean:
 # Install the driver last so that the window when things are
 # broken is small.
 install: install-common $(INSTALL_HEADERS) \
-    install-cpp install-man install-info install-@POSUB@ \
+    install-cpp install-@POSUB@ \
     install-driver
 
 # Handle cpp installation.
