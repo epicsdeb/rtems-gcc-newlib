@@ -1,3 +1,20 @@
+gcc-rtems4.10 (4.4.7-2) unstable; urgency=medium
+
+  [ Martin Konrad ]
+  * Add missing dh_lintian call
+  * Fix Lintian error 'helper-templates-in-copyright'
+  * Silence Lintian error 'non-empty-dependency_libs-in-la-file'
+
+  [ Michael Davidsaver ]
+  * auto generate debian patch
+  * Fixed compilation error for jessie - in doc all itemx should be preceeded with item
+  * More fixing gcc/doc in extend.texi (Missing @table code in 2 places)
+  * ng a typo in gcc/doc/extend.texi from previous commit
+  * disable info generation due to syntax errors
+  * add gbp.conf
+
+ -- Michael Davidsaver <mdavidsaver@bnl.gov>  Fri, 10 Jul 2015 19:01:46 -0400
+
 gcc-rtems4.10 (4.4.7-1) unstable; urgency=low
 
   * New GCC version
